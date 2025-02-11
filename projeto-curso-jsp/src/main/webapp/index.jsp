@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Curso Jsp</title>
+<title>Página inicial</title>
 </head>
-<body>	
-	
-	<% out.println("<h1>Bem vindo ao curso de JSP</h1>"); %>
+<body>
+	<h1>Olá Mundo</h1>
 </body>
 </html>

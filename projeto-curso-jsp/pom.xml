@@ -4,8 +4,6 @@
   <artifactId>projeto-curso-jsp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>curso-jsp</name>
-  <description>projeto do meu curso de jsp </description>
   <build>
     <plugins>
       <plugin>
