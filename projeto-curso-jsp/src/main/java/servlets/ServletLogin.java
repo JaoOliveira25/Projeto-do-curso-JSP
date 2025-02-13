@@ -1,10 +1,13 @@
 package servlets;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.ModelLogin;
+
 import java.io.IOException;
 //nota sempre que foir criar uma servlet apague o código xml gerado automaticamente para mapeamento 
 //toda servlet importa os pacotes de servlet do jakarta 
@@ -27,8 +30,19 @@ public class ServletLogin extends HttpServlet {
 
 	//recebe os dados enviados por formulário 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getParameter("nome"));
-		System.out.println(request.getParameter("email"));
+		String login = request.getParameter("login");
+		String senha = request.getParameter("senha");
+		if(login!=null && !login.isEmpty() && senha!= null && !senha.isEmpty()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setLogin(login);
+			modelLogin.setSenha(senha);
+		}else {
+			RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
+			request.setAttribute("msg", "Informe o login e a senha corretamente");
+			redirecionar.forward(request, response);
+		}
+		
+		
 
 	}
 

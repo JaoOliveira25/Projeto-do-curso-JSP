@@ -7,12 +7,26 @@
 <title>Página inicial</title>
 </head>
 <body>
-	<h1>Formulário</h1>
-	<!-- lembresse que no action ao colocar ServletLogin não precisa do / antes -->
+	<h4>${msg}</h4>
+	
 	<form action="ServletLogin" method="post"> 
-		<input type="text" name="nome">
-		<input type="text" name="email">
-		<button type="submit" >Enviar</button>
+		<table>
+			<tr>
+				<td><h1>Login</h1></td>
+			</tr>
+			<tr>
+				<td><label>Login</label></td>
+				<td><input type="text" name="login"></td>
+			</tr>
+			<tr>
+				<td><label>Senha</label></td>
+				<td><input type="password" name="senha"></td>
+			</tr>
+			<tr>
+				<td><button type="submit" name="btnEnviar">Enviar</button></td>
+			</tr>
+		</table>
 	</form>
+
 </body>
 </html>
