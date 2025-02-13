@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 //nota sempre que foir criar uma servlet apague o código xml gerado automaticamente para mapeamento 
 //toda servlet importa os pacotes de servlet do jakarta 
+//servlets são os controller de um projeto MVC ServletLoginControllerb
 
 @WebServlet("/ServletLogin") //mapeamento de url que vem da tela
 public class ServletLogin extends HttpServlet {
