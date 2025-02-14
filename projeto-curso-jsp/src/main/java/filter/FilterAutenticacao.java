@@ -46,7 +46,7 @@ public class FilterAutenticacao extends HttpFilter implements Filter {
 		
 		//validar se o usuario está ligado caso contrário redirecionar para a pagina de login
 		//ele está tentando acessar qualquer parte do sistema diferente da servlet login
-		if(usuarioLogado == null && !urlParaAutenticar.contains("/principal/ServletLogin")) {
+		if(usuarioLogado == null && !urlParaAutenticar.equalsIgnoreCase("/principal/ServletLogin")) {
 			
 			RequestDispatcher redireciona = request.getRequestDispatcher("/index.jsp?url="+urlParaAutenticar);
 			request.setAttribute("msg", "Por favor realize o login!");
