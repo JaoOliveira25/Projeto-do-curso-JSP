@@ -12,13 +12,13 @@ public class DAOLoginRepository {
 	private Connection connection;
 
 	public DAOLoginRepository() {
-		this.connection = SingleConnectionBanco.getConnection();
+		connection = SingleConnectionBanco.getConnection();
 	}
 	
 	//Agora validamos nosso login passamos o objeto Model como parametro
 	public boolean validarAutenticacao(ModelLogin modelLogin) throws Exception{
 		//crie o sql de consulta "select" com o uso de parametros para evitar sql injection
-		String sql = "select * from model_login where upper(login) = login=? and upper(password) = password=? ";
+		String sql = "select * from model_login where upper(login) = upper(?) and upper(password) = upper(?) ";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, modelLogin.getLogin());
 		statement.setString(2, modelLogin.getSenha());
