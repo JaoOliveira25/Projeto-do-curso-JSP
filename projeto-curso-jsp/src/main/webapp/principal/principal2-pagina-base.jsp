@@ -31,12 +31,9 @@
 									<!-- Page-body start -->
 									<div class="page-body">
 										<div class="row">
-
-
-											<h1>Página principal do projeto</h1>
+										
+		
 										</div>
-
-
 									</div>
 									<!-- Page-body end -->
 								</div>
