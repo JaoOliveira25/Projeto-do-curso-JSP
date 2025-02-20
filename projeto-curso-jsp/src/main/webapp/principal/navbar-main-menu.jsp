@@ -18,9 +18,7 @@
 				<ul>
 					<li class="more-details"><a href="user-profile.html"><i
 							class="ti-user"></i>View Profile</a> <a href="#!"><i
-							class="ti-settings"></i>Settings</a> <a
-						href="auth-normal-sign-in.html"><i
-							class="ti-layout-sidebar-left"></i>Logout</a></li>
+							class="ti-settings"></i>Settings</a> <a href="ServletLogin?acao=logout"><i class="ti-layout-sidebar-left"></i>Logout</a></li>
 				</ul>
 			</div>
 		</div>
