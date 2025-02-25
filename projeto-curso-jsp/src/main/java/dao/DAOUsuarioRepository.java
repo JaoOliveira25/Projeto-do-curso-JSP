@@ -15,9 +15,9 @@ public class DAOUsuarioRepository {
 		connection = SingleConnectionBanco.getConnection();
 	}
 	
-	public void gravarUsuario(ModelLogin objeto) throws Exception{
+	public ModelLogin gravarUsuario(ModelLogin objeto) throws Exception{
 		
-			String sql = "INSERT INTO model_login(login, senha, nome, email) VALUES (?,?,?,?);";
+			String sql = "INSERT INTO model_login(login, password, nome, email) VALUES (?,?,?,?);";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
 			statement.setString(2, objeto.getSenha());
@@ -26,11 +26,31 @@ public class DAOUsuarioRepository {
 			
 			statement.execute();//executa a instrução sql
 			connection.commit();//salva no banco de dados 
+			
+			return this.consultaUsuario(objeto.getLogin());
 				
 	}
 	
+	public ModelLogin consultaUsuario(String login) throws Exception {
+		ModelLogin modelLogin = new ModelLogin();
+		
+		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?);";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, login);
+		ResultSet result= statement.executeQuery(); //esse método retorna um objeto ResultSet
+		
+		while(result.next()) {//se tem resultado/retorno
+			modelLogin.setId(result.getLong("id"));
+			modelLogin.setEmail(result.getString("email"));
+			modelLogin.setLogin(result.getString("login"));
+			modelLogin.setSenha(result.getString("password"));
+			modelLogin.setNome(result.getString("nome"));
+		}
+		
+		return modelLogin;//se não entrar no loop while o retorno vai ser null
+	}
 	
-	
+
 	
 	
 }

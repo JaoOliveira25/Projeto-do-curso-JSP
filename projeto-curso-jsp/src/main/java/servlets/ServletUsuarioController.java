@@ -42,10 +42,10 @@ public class ServletUsuarioController extends HttpServlet {
 		modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id): null);
 		modelLogin.setNome(nome);
 		modelLogin.setEmail(email);
-		modelLogin.setEmail(login);
+		modelLogin.setLogin(login);
 		modelLogin.setSenha(senha);
 		
-		daoUsuarioRepository.gravarUsuario(modelLogin);
+		modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
 		
 		request.setAttribute("msg", "Operação realizada com sucesso!");
 		
@@ -58,8 +58,7 @@ public class ServletUsuarioController extends HttpServlet {
 			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
 			request.setAttribute("msg", e.getMessage());
 			redirecionar.forward(request, response);
-			
-			
+				
 		}
 		
 	}
