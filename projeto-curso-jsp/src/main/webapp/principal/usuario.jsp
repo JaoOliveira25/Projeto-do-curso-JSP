@@ -41,6 +41,8 @@
 														<form class="form-material"
 															action="<%= request.getContextPath()%>/ServletUsuarioController"
 															method="post" id="formUser">
+															<input type="hidden" name="acao" id="acao" value="">
+
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="id" id="id"
 																	class="form-control" readonly="readonly" value="${modelLogin.id}"> <span
@@ -72,9 +74,9 @@
 																<label class="float-label">Senha</label>
 															</div>
 
-															<button class="btn btn-primary waves-effect waves-light" onclick="limparForm()">Novo</button>
+															<button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm()">Novo</button>
 															<button class="btn btn-success waves-effect waves-light">salvar</button>
-															<button class="btn btn-info waves-effect waves-light">Deletar</button>
+															<button type="button" class="btn btn-info waves-effect waves-light" onclick="criarDelete()">Deletar</button>
 															
 														</form>
 
@@ -106,6 +108,12 @@
 				elementos[i].value='';
 			}
 		
+		}
+
+		function criarDelete(){
+			document.getElementById("formUser").method = 'get';
+			document.getElementById("acao").value = 'deletar';
+			document.getElementById("formUser").submit();
 		}
 
 	</script>

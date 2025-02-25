@@ -23,7 +23,25 @@ public class ServletUsuarioController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+			String acao = request.getParameter("acao");
+			
+			try {
+				if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
+					String idUser = request.getParameter("id");
+					System.out.println(idUser);
+					daoUsuarioRepository.deletarUser(idUser);
+					request.setAttribute("msg", "Excluido com sucesso!");
+					
+				}
+				
+				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+				RequestDispatcher redirecionar = request.getRequestDispatcher("error.jsp");
+				request.setAttribute("msg", e.getMessage());
+				redirecionar.forward(request, response);
+			}
 	}
 
 	// vamos interceptar os parametros da requisição de cadastro de usuario
