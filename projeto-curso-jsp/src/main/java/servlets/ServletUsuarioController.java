@@ -23,75 +23,89 @@ public class ServletUsuarioController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-			String acao = request.getParameter("acao");
-			
-			try {
-				if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
-					String idUser = request.getParameter("id");
-					System.out.println(idUser);
-					daoUsuarioRepository.deletarUser(idUser);
-					request.setAttribute("msg", "Excluido com sucesso!");
-					
-				}
-				
-				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
-			
-			} catch (Exception e) {
-				e.printStackTrace();
-				RequestDispatcher redirecionar = request.getRequestDispatcher("error.jsp");
-				request.setAttribute("msg", e.getMessage());
-				redirecionar.forward(request, response);
-			}
-	}
 
-	// vamos interceptar os parametros da requisição de cadastro de usuario
-	// minuto da aula 10:50
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-		String msg = "Operação realizada com sucesso";
-		
-		String id = request.getParameter("id");
-		String nome = request.getParameter("nome");
-		String email = request.getParameter("email");
-		String login = request.getParameter("login");
-		String senha = request.getParameter("senha");
-		
-		ModelLogin modelLogin = new ModelLogin();
-		modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id): null);
-		modelLogin.setNome(nome);
-		modelLogin.setEmail(email);
-		modelLogin.setLogin(login);
-		modelLogin.setSenha(senha);
-		
-		/*se o id for null e o validaLogin retornar true  significa que está sendo feito um novo registro então não será permitido 
-		login igual mas se o id já existir permite atualizar */
-		if(daoUsuarioRepository.validaLogin(modelLogin.getLogin()) && modelLogin.getId()==null) {
-			msg = "Já existe usuário com o mesmo login, informe outro login";
-		} else {
-			if(modelLogin.isNovo()) {
-				msg = "Cadastrado com sucesso!";
-			}else {
-				msg = "Atualizado com sucesso!";
+
+			String acao = request.getParameter("acao");
+
+			if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
+				String idUser = request.getParameter("id");
+
+				daoUsuarioRepository.deletarUser(idUser);
+
+				request.setAttribute("msg", "Excluido com sucesso!");
+				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarAjax")) {
+				String idUser = request.getParameter("id");
+
+				daoUsuarioRepository.deletarUser(idUser);
+
+				response.getWriter().write("Excluido com sucesso!");
+
+			} else {
+				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			}
-			modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
-			
-		}
-		
-		
-		request.setAttribute("msg", msg);
-		
-		request.setAttribute("modelLogin", modelLogin);
-		
-		request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
-		
-		}catch(Exception e ){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionar = request.getRequestDispatcher("error.jsp");
 			request.setAttribute("msg", e.getMessage());
 			redirecionar.forward(request, response);
-				
 		}
-		
+	}
+
+	// vamos interceptar os parametros da requisição de cadastro de usuario
+	// minuto da aula 10:50
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			String msg = "Operação realizada com sucesso";
+
+			String id = request.getParameter("id");
+			String nome = request.getParameter("nome");
+			String email = request.getParameter("email");
+			String login = request.getParameter("login");
+			String senha = request.getParameter("senha");
+
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
+			modelLogin.setNome(nome);
+			modelLogin.setEmail(email);
+			modelLogin.setLogin(login);
+			modelLogin.setSenha(senha);
+
+			/*
+			 * se o id for null e o validaLogin retornar true significa que está sendo feito
+			 * um novo registro então não será permitido login igual mas se o id já existir
+			 * permite atualizar
+			 */
+			if (daoUsuarioRepository.validaLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
+				msg = "Já existe usuário com o mesmo login, informe outro login";
+			} else {
+				if (modelLogin.isNovo()) {
+					msg = "Cadastrado com sucesso!";
+				} else {
+					msg = "Atualizado com sucesso!";
+				}
+				modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
+
+			}
+
+			request.setAttribute("msg", msg);
+
+			request.setAttribute("modelLogin", modelLogin);
+
+			request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			RequestDispatcher redirecionar = request.getRequestDispatcher("error.jsp");
+			request.setAttribute("msg", e.getMessage());
+			redirecionar.forward(request, response);
+
+		}
+
 	}
 
 }
