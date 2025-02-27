@@ -88,7 +88,7 @@
 																onclick="criarDelete()">Deletar</button>
 															<button type="button" class="btn btn-secondary"
 																data-toggle="modal" data-target="#exampleModalUsuario">
-																Launch demo modal</button>
+																Buscar</button>
 
 														</form>
 
@@ -125,8 +125,30 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<!-- formulário de pesquisa -->
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Nome" aria-label="Recipient's username" aria-describedby="basic-addon2" id="nomeBusca">
+						<div class="input-group-append">
+						  <button class="btn btn-success" type="button" onclick="buscarUsuario()">Buscar</button>
+						</div>
+					  </div>
+					  <div style="height: 300px; overflow: scroll; ">
+						<table class="table"
+						id="tabelaResultados">
+						  <thead>
+							<tr>
+							  <th scope="col">ID</th>
+							  <th scope="col">Nome</th>
+							  <th scope="col">Ver</th>							
+							</tr>
+						  </thead>
+						  <tbody>
+							  
+						  </tbody>
+						</table>
+					  </div>
 				</div>
+				<span id="totalResultados"></span>
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Fechar</button>
@@ -138,6 +160,43 @@
 
 
 	<script type="text/javascript">
+
+
+		function buscarUsuario() {
+			let nomeBusca = document.getElementById("nomeBusca").value;
+			
+
+			if(nomeBusca != null && nomeBusca != '' && nomeBusca.trim()!= ''){
+				let urlAction = document.getElementById("formUser").action;
+
+				$.ajax({
+					method: "get",
+					url: urlAction,
+					data: "nomeBusca="+nomeBusca+"&acao=buscarUserAjax",
+					success: function(response){
+						
+						const json = JSON.parse(response);
+						
+						$('#tabelaResultados > tbody > tr').remove();
+
+						for(var i=0; i<json.length; i++){
+							$('#tabelaResultados > tbody').append('<tr> <td>'+json[i].id+'</td> <td>'+json[i].nome+'</td> <td><button type="button" class="btn btn-info">Ver</button></td> </tr>');
+							
+						}
+
+						document.getElementById('totalResultados').textContent = '	Resultados: '+json.length;
+
+
+
+					}
+				}).fail(function(xhr, status, errorThrown) {
+							alert('Erro ao buscar usuário :'+ xhr.responseText);
+				});
+			}
+			
+			
+		}
+
 		function criarDeleteComAjax() {
 			if (confirm("Deseja mesmo deletar esses dados?")) {
 				let urlAction = document.getElementById("formUser").action;
