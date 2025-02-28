@@ -48,7 +48,7 @@ public class DAOUsuarioRepository {
 	
 	public List<ModelLogin> consultaUsuarioList(String nome) throws SQLException{
 		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
-		String sql = "SELECT * FROM model_login WHERE nome ILIKE ? ";
+		String sql = "SELECT * FROM model_login WHERE nome ILIKE ? and useradmin is false";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, "%" + nome + "%");
 		ResultSet result = statement.executeQuery();
@@ -67,7 +67,7 @@ public class DAOUsuarioRepository {
 	
 	public List<ModelLogin> consultaUsuarioList() throws SQLException{
 		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
-		String sql = "SELECT * FROM model_login";
+		String sql = "SELECT * FROM model_login WHERE useradmin = false";
 		PreparedStatement statement = connection.prepareStatement(sql);
 
 		ResultSet result = statement.executeQuery();
@@ -88,7 +88,7 @@ public class DAOUsuarioRepository {
 	public ModelLogin consultaUsuario(String login) throws Exception {
 		ModelLogin modelLogin = new ModelLogin();
 
-		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?);";
+		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?) and useradmin = false ;";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, login);
 		ResultSet result = statement.executeQuery(); // esse método retorna um objeto ResultSet
@@ -107,7 +107,7 @@ public class DAOUsuarioRepository {
 	public ModelLogin consultaUsuarioId(String id) throws Exception {
 		ModelLogin modelLogin = new ModelLogin();
 
-		String sql = "SELECT * FROM model_login WHERE id = ? ;";
+		String sql = "SELECT * FROM model_login WHERE id = ? and useradmin = false;";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setLong(1, Long.parseLong(id));
 		ResultSet result = statement.executeQuery(); // esse método retorna um objeto ResultSet
@@ -134,7 +134,7 @@ public class DAOUsuarioRepository {
 	}
 
 	public void deletarUser(String idUser) throws Exception {
-		String sql = "DELETE FROM public.model_login WHERE id=?;";
+		String sql = "DELETE FROM public.model_login WHERE id=? and useradmin = false ;";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setLong(1, Long.parseLong(idUser));
 		statement.executeUpdate();
