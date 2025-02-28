@@ -160,7 +160,11 @@
 
 
 	<script type="text/javascript">
+		function verEditar(id){
+			let urlAction = document.getElementById('formUser').action;
+			window.location.href = urlAction + '?acao=buscarEditar&id='+id;
 
+		}
 
 		function buscarUsuario() {
 			let nomeBusca = document.getElementById("nomeBusca").value;
@@ -180,7 +184,7 @@
 						$('#tabelaResultados > tbody > tr').remove();
 
 						for(var i=0; i<json.length; i++){
-							$('#tabelaResultados > tbody').append('<tr> <td>'+json[i].id+'</td> <td>'+json[i].nome+'</td> <td><button type="button" class="btn btn-info">Ver</button></td> </tr>');
+							$('#tabelaResultados > tbody').append('<tr> <td>'+json[i].id+'</td> <td>'+json[i].nome+'</td> <td><button type="button" class="btn btn-info" onclick="verEditar('+json[i].id+')">Ver</button></td> </tr>');
 							
 						}
 

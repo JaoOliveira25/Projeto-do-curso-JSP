@@ -57,7 +57,17 @@ public class ServletUsuarioController extends HttpServlet {
 				
 				response.getWriter().write(json);
 				
-			}else {
+			}else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) {
+				String idBusca = request.getParameter("id");
+				ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioId(idBusca);
+				
+				request.setAttribute("msg", "Editar Usuário");
+				request.setAttribute("modelLogin", modelLogin);
+				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+				
+				
+			}
+			else {
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			}
 				

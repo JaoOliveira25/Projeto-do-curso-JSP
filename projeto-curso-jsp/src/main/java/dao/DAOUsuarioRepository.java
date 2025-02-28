@@ -85,6 +85,25 @@ public class DAOUsuarioRepository {
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
 	}
 
+	public ModelLogin consultaUsuarioId(String id) throws Exception {
+		ModelLogin modelLogin = new ModelLogin();
+
+		String sql = "SELECT * FROM model_login WHERE id = ? ;";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setLong(1, Long.parseLong(id));
+		ResultSet result = statement.executeQuery(); // esse método retorna um objeto ResultSet
+
+		while (result.next()) {// se tem resultado/retorno
+			modelLogin.setId(result.getLong("id"));
+			modelLogin.setEmail(result.getString("email"));
+			modelLogin.setLogin(result.getString("login"));
+			modelLogin.setSenha(result.getString("password"));
+			modelLogin.setNome(result.getString("nome"));
+		}
+
+		return modelLogin;// se não entrar no loop while o retorno vai ser null
+	}
+	
 	public boolean validaLogin(String login) throws Exception {
 		String sql = "SELECT COUNT(1) > 0 AS existe FROM model_login WHERE upper(login) = upper(?);";
 		PreparedStatement statement = connection.prepareStatement(sql);
