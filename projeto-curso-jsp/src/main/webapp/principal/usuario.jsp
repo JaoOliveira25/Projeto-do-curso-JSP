@@ -107,7 +107,8 @@
 												<tr>
 												<th scope="col">ID</th>
 												<th scope="col">Nome</th>
-												<th scope="col">Ver</th>							
+												<th scope="col">Ver</th>	
+												<th scope="col">Remover</th>						
 												</tr>
 											</thead>
 											<tbody>
@@ -116,6 +117,7 @@
 															<td><c:out value="${mL.id}"></c:out></td>
 															<td><c:out value="${mL.nome}"></c:out></td>
 															<td><a href="<%= request.getContextPath() %>/ServletUsuarioController?acao=buscarEditar&id=${mL.id}" class="btn btn-success" type="button">Ver</a></td>
+															<td><button onclick="btnDeletar(${mL.id})" class="btn btn-danger" type="button">Remover</button></td>
 														</tr>
 												</c:forEach>
 											</tbody>
@@ -236,6 +238,28 @@
 					success : function(response) {
 						limparForm();
 						document.getElementById('msg').textContent = response;
+					}
+				}).fail(
+						function(xhr, status, errorThrown) {
+							alert('Erro ao deletar usuário por id:'
+									+ xhr.responseText);
+						});
+			}
+		}
+
+		function btnDeletar(id){
+			if (confirm("Deseja mesmo deletar esses dados?")) {
+				let urlAction = document.getElementById("formUser").action;
+				let idUser = id;
+
+				$.ajax({
+					method : "get",
+					url : urlAction,
+					data : "id=" + idUser + "&acao=btnDeletar",
+					success : function(response) {
+						
+						location.reload();
+						
 					}
 				}).fail(
 						function(xhr, status, errorThrown) {

@@ -38,7 +38,7 @@ public class ServletUsuarioController extends HttpServlet {
 				
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
 				request.setAttribute("modelLogins", modelLogins);
-
+				
 				request.setAttribute("msg", "Excluido com sucesso!");
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 
@@ -49,7 +49,20 @@ public class ServletUsuarioController extends HttpServlet {
 
 				response.getWriter().write("Excluido com sucesso!");
 
-			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjax")) {
+			}else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("btnDeletar")) {
+				String idUser = request.getParameter("id");
+
+				daoUsuarioRepository.deletarUser(idUser);
+				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList();
+				request.setAttribute("modelLogins", modelLogins);
+				
+				request.setAttribute("msg", "Usuário excluido com sucesso!");
+				
+				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+				
+
+			}
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjax")) {
 				String nomeBusca = request.getParameter("nomeBusca");
 				
 				List<ModelLogin> dadosJsonUser = daoUsuarioRepository.consultaUsuarioList(nomeBusca);
