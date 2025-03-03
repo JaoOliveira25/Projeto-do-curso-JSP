@@ -20,25 +20,27 @@ public class DAOUsuarioRepository {
 
 	public ModelLogin gravarUsuario(ModelLogin objeto, Long userLogado) throws Exception {
 		if (objeto.isNovo()) {// grava um novo usuario
-			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id) VALUES (?,?,?,?,?);";
+			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil) VALUES (?,?,?,?,?,?);";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
 			statement.setString(2, objeto.getSenha());
 			statement.setString(3, objeto.getNome());
 			statement.setString(4, objeto.getEmail());
 			statement.setLong(5, userLogado);
+			statement.setString(6, objeto.getPerfil());
 
 			statement.execute();// executa a instrução sql
 			connection.commit();// salva no banco de dados
 		} else {
 			
 			
-			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=? WHERE id=" + objeto.getId() + ";";
+			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=? WHERE id=" + objeto.getId() + ";";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
 			statement.setString(2, objeto.getSenha());
 			statement.setString(3, objeto.getNome());
 			statement.setString(4, objeto.getEmail());
+			statement.setString(5, objeto.getPerfil());
 
 			statement.executeUpdate();
 			connection.commit();
@@ -151,6 +153,7 @@ public class DAOUsuarioRepository {
 				modelLogin.setSenha(result.getString("password"));
 				modelLogin.setNome(result.getString("nome"));
 				modelLogin.setUserAdmin(result.getBoolean("useradmin"));
+				modelLogin.setPerfil(result.getString("perfil"));
 			}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
