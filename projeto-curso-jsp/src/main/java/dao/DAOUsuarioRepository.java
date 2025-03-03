@@ -150,6 +150,7 @@ public class DAOUsuarioRepository {
 				modelLogin.setLogin(result.getString("login"));
 				modelLogin.setSenha(result.getString("password"));
 				modelLogin.setNome(result.getString("nome"));
+				modelLogin.setUserAdmin(result.getBoolean("useradmin"));
 			}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
