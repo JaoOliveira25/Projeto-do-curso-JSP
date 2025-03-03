@@ -258,7 +258,7 @@
 					data : "id=" + idUser + "&acao=btnDeletar",
 					success : function(response) {
 						
-						location.reload();
+						window.location.href = "ServletUsuarioController?acao=ListarUsers";
 						
 					}
 				}).fail(
