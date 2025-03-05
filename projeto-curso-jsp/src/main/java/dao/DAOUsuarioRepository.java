@@ -20,7 +20,7 @@ public class DAOUsuarioRepository {
 
 	public ModelLogin gravarUsuario(ModelLogin objeto, Long userLogado) throws Exception {
 		if (objeto.isNovo()) {// grava um novo usuario
-			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil) VALUES (?,?,?,?,?,?);";
+			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil, sexo) VALUES (?,?,?,?,?,?,?);";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
 			statement.setString(2, objeto.getSenha());
@@ -28,19 +28,21 @@ public class DAOUsuarioRepository {
 			statement.setString(4, objeto.getEmail());
 			statement.setLong(5, userLogado);
 			statement.setString(6, objeto.getPerfil());
+			statement.setString(7, objeto.getSexo());
 
 			statement.execute();// executa a instrução sql
 			connection.commit();// salva no banco de dados
 		} else {
 			
 			
-			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=? WHERE id=" + objeto.getId() + ";";
+			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=?, sexo=? WHERE id=" + objeto.getId() + ";";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
 			statement.setString(2, objeto.getSenha());
 			statement.setString(3, objeto.getNome());
 			statement.setString(4, objeto.getEmail());
 			statement.setString(5, objeto.getPerfil());
+			statement.setString(6, objeto.getSexo());
 
 			statement.executeUpdate();
 			connection.commit();
@@ -65,6 +67,8 @@ public class DAOUsuarioRepository {
 			modelLogin.setEmail(result.getString("email"));
 			modelLogin.setLogin(result.getString("login"));
 			modelLogin.setNome(result.getString("nome"));
+			modelLogin.setPerfil(result.getString("perfil"));
+			modelLogin.setSexo(result.getString("sexo"));
 			//modelLogin.setSenha(result.getString("password"));
 			retornoList.add(modelLogin);
 		}
@@ -86,6 +90,8 @@ public class DAOUsuarioRepository {
 			modelLogin.setEmail(result.getString("email"));
 			modelLogin.setLogin(result.getString("login"));
 			modelLogin.setNome(result.getString("nome"));
+			modelLogin.setPerfil(result.getString("perfil"));
+			modelLogin.setSexo(result.getString("sexo"));
 			//modelLogin.setSenha(result.getString("password"));
 			retornoList.add(modelLogin);
 		}
@@ -110,6 +116,8 @@ public class DAOUsuarioRepository {
 			modelLogin.setLogin(result.getString("login"));
 			modelLogin.setSenha(result.getString("password"));
 			modelLogin.setNome(result.getString("nome"));
+			modelLogin.setPerfil(result.getString("perfil"));
+			modelLogin.setSexo(result.getString("sexo"));
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
@@ -131,6 +139,9 @@ public class DAOUsuarioRepository {
 			modelLogin.setLogin(result.getString("login"));
 			modelLogin.setSenha(result.getString("password"));
 			modelLogin.setNome(result.getString("nome"));
+			modelLogin.setUserAdmin(result.getBoolean("useradmin"));
+			modelLogin.setPerfil(result.getString("perfil"));
+			modelLogin.setSexo(result.getString("sexo"));
 		}
 		return modelLogin;
 		
@@ -154,6 +165,7 @@ public class DAOUsuarioRepository {
 				modelLogin.setNome(result.getString("nome"));
 				modelLogin.setUserAdmin(result.getBoolean("useradmin"));
 				modelLogin.setPerfil(result.getString("perfil"));
+				modelLogin.setSexo(result.getString("sexo"));
 			}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
@@ -174,6 +186,8 @@ public class DAOUsuarioRepository {
 			modelLogin.setLogin(result.getString("login"));
 			modelLogin.setSenha(result.getString("password"));
 			modelLogin.setNome(result.getString("nome"));
+			modelLogin.setPerfil(result.getString("perfil"));
+			modelLogin.setSexo(result.getString("sexo"));
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
