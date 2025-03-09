@@ -32,6 +32,17 @@ public class DAOUsuarioRepository {
 
 			statement.execute();// executa a instrução sql
 			connection.commit();// salva no banco de dados
+			
+			if(objeto.getFotoUser()!= null && !objeto.getFotoUser().isEmpty()) {
+				 sql = "UPDATE model_login SET fotouser = ?, extensaofotouser = ? WHERE login = ? ";
+				 statement = connection.prepareStatement(sql);
+				 statement.setString(1, objeto.getFotoUser());
+				 statement.setString(2, objeto.getExtesaoFotoUser());
+				 statement.setString(3, objeto.getLogin());
+				 statement.executeUpdate();
+				 connection.commit();
+			}
+			
 		} else {
 			
 			
@@ -47,6 +58,16 @@ public class DAOUsuarioRepository {
 			statement.executeUpdate();
 			connection.commit();
 			//atualiza os dados no BD
+			
+			if(objeto.getFotoUser()!= null && !objeto.getFotoUser().isEmpty()) {
+				 sql = "UPDATE model_login SET fotouser = ?, extensaofotouser = ? WHERE id = ? ";
+				 statement = connection.prepareStatement(sql);
+				 statement.setString(1, objeto.getFotoUser());
+				 statement.setString(2, objeto.getExtesaoFotoUser());
+				 statement.setLong(3, objeto.getId());
+				 statement.executeUpdate();
+				 connection.commit();
+			}
 
 		}
 

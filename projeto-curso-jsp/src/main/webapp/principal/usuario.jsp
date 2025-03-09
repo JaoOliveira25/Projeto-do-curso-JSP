@@ -57,11 +57,9 @@
 
 															<div class="form-group form-default input-group mb-4">
 																<div class="input-group-prepend">
-																	<img src="" alt="Imagem User" width="70px">
+																	<img src="" alt="Imagem User" width="70px" id="fotoEmBase64">
 																</div>
-																<input type="file" class="form-control-file" style="margin-top: 15px; margin-right: 15px;">
-
-																
+																<input type="file" accept="image/*" onchange ="visualizarImg('fotoEmBase64', 'fileFoto')" class="form-control-file" style="margin-top: 15px; margin-right: 15px;" id="fileFoto" name="fileFoto">	
 															</div>
 
 															<div class="form-group form-default form-static-label">
@@ -249,6 +247,27 @@
 
 
 	<script type="text/javascript">
+		function visualizarImg(fotoEmBase64, fileFoto){
+
+			
+			let preview = document.getElementById(fotoEmBase64);//campo img 
+			let fileUser = document.getElementById(fileFoto).files[0];
+			let reader = new FileReader();
+
+			reader.onloadend = function () {/*aqui apenas criamos o evento não significa que ele sera executado imediatamente onload = "carregamento" end="fim" fim do carregamento*/
+											//O evento onloadend só será chamado depois que a leitura do arquivo for concluída.
+				preview.src = reader.result;/*Pega o resultado da leitura e atribui a imagem (<img>) como essa versão Base64, permitindo que ela seja exibida na tela.*/
+			};
+
+			if(fileUser){//aqui é feito a leitura do arquivo 
+				reader.readAsDataURL(fileUser);//Isso inicia a leitura do arquivo e, quando ela terminar, o evento onloadend será disparado.
+				//readAsDataURL(file) lê o arquivo e converte seu conteúdo para uma string Base64
+			}else{
+				preview.src = '';
+			}
+		
+		}
+
 		function verEditar(id){
 			let urlAction = document.getElementById('formUser').action;
 			window.location.href = urlAction + '?acao=buscarEditar&id='+id;

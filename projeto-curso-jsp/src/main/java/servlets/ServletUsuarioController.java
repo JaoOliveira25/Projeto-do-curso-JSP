@@ -3,6 +3,10 @@ package servlets;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
+
+import java.util.Base64;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.DAOUsuarioRepository;
@@ -10,9 +14,9 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.ModelLogin;
 
 @MultipartConfig
@@ -123,7 +127,10 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String senha = request.getParameter("senha");
 			String perfil = request.getParameter("perfil");
 			String sexo = request.getParameter("sexo");
-
+			
+			
+			 
+			
 			ModelLogin modelLogin = new ModelLogin();
 			modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
 			modelLogin.setNome(nome);
@@ -132,6 +139,23 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setSenha(senha);
 			modelLogin.setPerfil(perfil);
 			modelLogin.setSexo(sexo);
+			
+			if(request.getPart("fileFoto")!= null) {
+				Part part = request.getPart("fileFoto"); // Obtemos o arquivo enviado
+				byte[] foto = IOUtils.toByteArray(part.getInputStream());
+				/* Essa concatenação gera uma string no formato correto para ser usada diretamente 
+				 em atributos src de imagens no HTML. Esse formato é ideal para armazenar ou exibir
+				  imagens diretamente no navegador */
+				String imagemBase64 = "data:image/"+part.getContentType().split("\\/")[1]+";base64,"+Base64.getEncoder().encodeToString(foto);
+				
+				
+				modelLogin.setFotoUser(imagemBase64);
+				/*O método part.getContentType() retorna algo como "image/jpeg" ou "image/png".
+				O código split("\\/")[1] divide essa string pelo caractere '/' e pega a segunda parte*/
+				modelLogin.setExtesaoFotoUser(part.getContentType().split("\\/")[1]);
+				//Na hora de gravar no BD queremos que o parametro da imagem seja opcional 
+				
+			}
 
 			/*
 			 * se o id for null e o validaLogin retornar true significa que está sendo feito
