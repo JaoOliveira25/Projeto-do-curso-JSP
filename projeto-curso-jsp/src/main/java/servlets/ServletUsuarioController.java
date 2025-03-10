@@ -2,13 +2,9 @@ package servlets;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
-
 import java.util.Base64;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import dao.DAOUsuarioRepository;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

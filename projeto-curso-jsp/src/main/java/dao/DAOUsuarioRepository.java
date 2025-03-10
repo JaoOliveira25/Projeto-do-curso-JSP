@@ -113,7 +113,8 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(result.getString("nome"));
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
-			//modelLogin.setSenha(result.getString("password"));
+			modelLogin.setFotoUser(result.getString("fotoUser"));
+			
 			retornoList.add(modelLogin);
 		}
 		
@@ -209,6 +210,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(result.getString("nome"));
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
+			modelLogin.setFotoUser(result.getString("fotoUser"));
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null

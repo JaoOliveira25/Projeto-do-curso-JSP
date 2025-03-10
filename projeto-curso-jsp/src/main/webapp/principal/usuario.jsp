@@ -55,9 +55,11 @@
 																	class="form-bar"></span> <label class="float-label">ID:</label>
 															</div>
 
+															
 															<div class="form-group form-default input-group mb-4">
 																<div class="input-group-prepend">
-																	<img src="" alt="Imagem User" width="70px" id="fotoEmBase64">
+																	
+																	<img src="${pageContext.request.contextPath}/assets/images/free-user.jpg" alt="Imagem User" width="70px" id="fotoEmBase64">
 																</div>
 																<input type="file" accept="image/*" onchange ="visualizarImg('fotoEmBase64', 'fileFoto')" class="form-control-file" style="margin-top: 15px; margin-right: 15px;" id="fileFoto" name="fileFoto">	
 															</div>
