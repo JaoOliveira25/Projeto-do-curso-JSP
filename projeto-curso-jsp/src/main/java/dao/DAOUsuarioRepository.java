@@ -113,7 +113,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(result.getString("nome"));
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
-			modelLogin.setFotoUser(result.getString("fotoUser"));
+			modelLogin.setFotoUser(result.getString("fotouser"));
 			
 			retornoList.add(modelLogin);
 		}
@@ -140,6 +140,8 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(result.getString("nome"));
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
+			modelLogin.setFotoUser(result.getString("fotouser"));
+			;
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
@@ -164,6 +166,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setUserAdmin(result.getBoolean("useradmin"));
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
+			modelLogin.setFotoUser(result.getString("fotouser"));
 		}
 		return modelLogin;
 		
@@ -210,7 +213,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(result.getString("nome"));
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
-			modelLogin.setFotoUser(result.getString("fotoUser"));
+			modelLogin.setFotoUser(result.getString("fotouser"));
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null

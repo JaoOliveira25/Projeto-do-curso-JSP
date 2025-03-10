@@ -138,18 +138,20 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			
 			if(request.getPart("fileFoto")!= null) {
 				Part part = request.getPart("fileFoto"); // Obtemos o arquivo enviado
-				byte[] foto = IOUtils.toByteArray(part.getInputStream());
-				/* Essa concatenação gera uma string no formato correto para ser usada diretamente 
-				 em atributos src de imagens no HTML. Esse formato é ideal para armazenar ou exibir
-				  imagens diretamente no navegador */
-				String imagemBase64 = "data:image/"+part.getContentType().split("\\/")[1]+";base64,"+Base64.getEncoder().encodeToString(foto);
-				
-				
-				modelLogin.setFotoUser(imagemBase64);
-				/*O método part.getContentType() retorna algo como "image/jpeg" ou "image/png".
-				O código split("\\/")[1] divide essa string pelo caractere '/' e pega a segunda parte*/
-				modelLogin.setExtesaoFotoUser(part.getContentType().split("\\/")[1]);
-				//Na hora de gravar no BD queremos que o parametro da imagem seja opcional 
+				if(part.getSize()>0) {
+					byte[] foto = IOUtils.toByteArray(part.getInputStream());
+					/* Essa concatenação gera uma string no formato correto para ser usada diretamente 
+					 em atributos src de imagens no HTML. Esse formato é ideal para armazenar ou exibir
+					  imagens diretamente no navegador */
+					String imagemBase64 = "data:image/"+part.getContentType().split("\\/")[1]+";base64,"+Base64.getEncoder().encodeToString(foto);
+					
+					
+					modelLogin.setFotoUser(imagemBase64);
+					/*O método part.getContentType() retorna algo como "image/jpeg" ou "image/png".
+					O código split("\\/")[1] divide essa string pelo caractere '/' e pega a segunda parte*/
+					modelLogin.setExtesaoFotoUser(part.getContentType().split("\\/")[1]);
+					//Na hora de gravar no BD queremos que o parametro da imagem seja opcional 
+				}
 				
 			}
 

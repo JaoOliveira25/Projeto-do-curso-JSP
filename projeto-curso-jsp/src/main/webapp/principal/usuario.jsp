@@ -58,9 +58,15 @@
 															
 															<div class="form-group form-default input-group mb-4">
 																<div class="input-group-prepend">
+																	<c:if test="${not empty modelLogin.fotoUser}">
+																		<img src="${modelLogin.fotoUser}" alt="Imagem User" width="70px" id="fotoEmBase64">
+																	</c:if>
+																	<c:if test="${empty modelLogin.fotoUser}">
+																		<img src="${pageContext.request.contextPath}/assets/images/free-user.png" alt="Imagem User" width="70px" id="fotoEmBase64">
+																	</c:if>
 																	
-																	<img src="${pageContext.request.contextPath}/assets/images/free-user.jpg" alt="Imagem User" width="70px" id="fotoEmBase64">
 																</div>
+																
 																<input type="file" accept="image/*" onchange ="visualizarImg('fotoEmBase64', 'fileFoto')" class="form-control-file" style="margin-top: 15px; margin-right: 15px;" id="fileFoto" name="fileFoto">	
 															</div>
 
