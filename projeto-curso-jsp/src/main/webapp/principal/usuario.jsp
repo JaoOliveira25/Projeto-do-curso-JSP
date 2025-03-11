@@ -59,10 +59,12 @@
 															<div class="form-group form-default input-group mb-4">
 																<div class="input-group-prepend">
 																	<c:if test="${not empty modelLogin.fotoUser}">
-																		<img src="${modelLogin.fotoUser}" alt="Imagem User" width="70px" id="fotoEmBase64">
+																		<a href="<%= request.getContextPath()%>/ServletUsuarioController?acao=downloadFoto&id=${modelLogin.id}">
+																			<img src="${modelLogin.fotoUser}" alt="Imagem User" width="70px" id="fotoEmBase64" style=" margin-right: 10px ;">
+																		</a>																	
 																	</c:if>
 																	<c:if test="${empty modelLogin.fotoUser}">
-																		<img src="${pageContext.request.contextPath}/assets/images/free-user.png" alt="Imagem User" width="70px" id="fotoEmBase64">
+																		<img src="${pageContext.request.contextPath}/assets/images/free-user.png" alt="Imagem User" width="70px" id="fotoEmBase64" style=" margin-right: 10px ;">
 																	</c:if>
 																	
 																</div>

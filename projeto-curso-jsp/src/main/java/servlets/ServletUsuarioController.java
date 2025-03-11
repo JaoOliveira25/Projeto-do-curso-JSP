@@ -95,8 +95,17 @@ public class ServletUsuarioController extends ServletGenericUtil {
 					request.setAttribute("modelLogins", modelLogins);
 					request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			
-			}
-			else {
+			}else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("downloadFoto")) {
+				String idUser = request.getParameter("id");
+				ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioId(idUser, super.getUserLogado(request));
+				
+				if(modelLogin.getFotoUser()!=null && !modelLogin.getFotoUser().isEmpty() ) {
+					response.setHeader("Content-Disposition", "attachment;filename=foto_usuario_"+idUser+"."+modelLogin.getExtesaoFotoUser());	
+					response.getOutputStream().write(Base64.getDecoder().decode(modelLogin.getFotoUser().split(",")[1]));
+				}
+				
+				
+			}else {
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins);
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);

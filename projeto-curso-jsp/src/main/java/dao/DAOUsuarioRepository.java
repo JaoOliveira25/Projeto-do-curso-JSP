@@ -141,7 +141,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
 			modelLogin.setFotoUser(result.getString("fotouser"));
-			;
+			modelLogin.setExtesaoFotoUser(result.getString("extensaofotouser"));
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
@@ -214,6 +214,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
 			modelLogin.setFotoUser(result.getString("fotouser"));
+			modelLogin.setExtesaoFotoUser(result.getString("extensaofotouser"));
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
