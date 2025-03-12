@@ -20,7 +20,7 @@ public class DAOUsuarioRepository {
 
 	public ModelLogin gravarUsuario(ModelLogin objeto, Long userLogado) throws Exception {
 		if (objeto.isNovo()) {// grava um novo usuario
-			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil, sexo) VALUES (?,?,?,?,?,?,?);";
+			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
 			statement.setString(2, objeto.getSenha());
@@ -29,7 +29,13 @@ public class DAOUsuarioRepository {
 			statement.setLong(5, userLogado);
 			statement.setString(6, objeto.getPerfil());
 			statement.setString(7, objeto.getSexo());
-
+			statement.setString(8, objeto.getCep());
+			statement.setString(9, objeto.getLogradouro());
+			statement.setString(10, objeto.getBairro());
+			statement.setString(11, objeto.getLocalidade());
+			statement.setString(12, objeto.getUf());
+			statement.setString(13, objeto.getNumero());
+			
 			statement.execute();// executa a instrução sql
 			connection.commit();// salva no banco de dados
 			
@@ -46,7 +52,7 @@ public class DAOUsuarioRepository {
 		} else {
 			
 			
-			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=?, sexo=? WHERE id=" + objeto.getId() + ";";
+			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=?, sexo=?,  cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero=? WHERE id=" + objeto.getId() + ";";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
 			statement.setString(2, objeto.getSenha());
@@ -54,7 +60,13 @@ public class DAOUsuarioRepository {
 			statement.setString(4, objeto.getEmail());
 			statement.setString(5, objeto.getPerfil());
 			statement.setString(6, objeto.getSexo());
-
+			statement.setString(8, objeto.getCep());
+			statement.setString(9, objeto.getLogradouro());
+			statement.setString(10, objeto.getBairro());
+			statement.setString(11, objeto.getLocalidade());
+			statement.setString(12, objeto.getUf());
+			statement.setString(13, objeto.getNumero());
+			
 			statement.executeUpdate();
 			connection.commit();
 			//atualiza os dados no BD
@@ -114,6 +126,12 @@ public class DAOUsuarioRepository {
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
 			modelLogin.setFotoUser(result.getString("fotouser"));
+			modelLogin.setCep(result.getString("cep"));
+			modelLogin.setLogradouro(result.getString("logradouro"));
+			modelLogin.setBairro(result.getString("bairro"));
+			modelLogin.setLocalidade(result.getString("localidade"));
+			modelLogin.setUf(result.getString("uf"));
+			modelLogin.setNumero(result.getString("numero"));
 			
 			retornoList.add(modelLogin);
 		}
@@ -142,6 +160,12 @@ public class DAOUsuarioRepository {
 			modelLogin.setSexo(result.getString("sexo"));
 			modelLogin.setFotoUser(result.getString("fotouser"));
 			modelLogin.setExtesaoFotoUser(result.getString("extensaofotouser"));
+			modelLogin.setCep(result.getString("cep"));
+			modelLogin.setLogradouro(result.getString("logradouro"));
+			modelLogin.setBairro(result.getString("bairro"));
+			modelLogin.setLocalidade(result.getString("localidade"));
+			modelLogin.setUf(result.getString("uf"));
+			modelLogin.setNumero(result.getString("numero"));
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
@@ -167,6 +191,12 @@ public class DAOUsuarioRepository {
 			modelLogin.setPerfil(result.getString("perfil"));
 			modelLogin.setSexo(result.getString("sexo"));
 			modelLogin.setFotoUser(result.getString("fotouser"));
+			modelLogin.setCep(result.getString("cep"));
+			modelLogin.setLogradouro(result.getString("logradouro"));
+			modelLogin.setBairro(result.getString("bairro"));
+			modelLogin.setLocalidade(result.getString("localidade"));
+			modelLogin.setUf(result.getString("uf"));
+			modelLogin.setNumero(result.getString("numero"));
 		}
 		return modelLogin;
 		
@@ -215,6 +245,12 @@ public class DAOUsuarioRepository {
 			modelLogin.setSexo(result.getString("sexo"));
 			modelLogin.setFotoUser(result.getString("fotouser"));
 			modelLogin.setExtesaoFotoUser(result.getString("extensaofotouser"));
+			modelLogin.setCep(result.getString("cep"));
+			modelLogin.setLogradouro(result.getString("logradouro"));
+			modelLogin.setBairro(result.getString("bairro"));
+			modelLogin.setLocalidade(result.getString("localidade"));
+			modelLogin.setUf(result.getString("uf"));
+			modelLogin.setNumero(result.getString("numero"));
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
