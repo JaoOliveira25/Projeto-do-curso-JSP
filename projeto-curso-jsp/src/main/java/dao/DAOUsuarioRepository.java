@@ -89,7 +89,7 @@ public class DAOUsuarioRepository {
 	
 	public List<ModelLogin> consultaUsuarioList(String nome, Long userLogado) throws SQLException{
 		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
-		String sql = "SELECT * FROM model_login WHERE nome ILIKE ? and useradmin is false and usuario_id = ? limit 5";
+		String sql = "SELECT * FROM model_login WHERE nome ILIKE ? and useradmin is false and usuario_id = ? order by nome limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, "%" + nome + "%");
 		statement.setLong(2, userLogado);
@@ -113,7 +113,7 @@ public class DAOUsuarioRepository {
 		/*com o parametro user logado garantimos que só 
 		será consultado somente cadastros que o usuario logado registrou*/
 		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
-		String sql = "SELECT * FROM model_login WHERE useradmin = false and usuario_id="+userLogado+" order by nome "+offset+" 5 limit 5;";
+		String sql = "SELECT * FROM model_login WHERE useradmin = false and usuario_id="+userLogado+" order by nome offset "+offset+" limit 5;";
 		PreparedStatement statement = connection.prepareStatement(sql);
 
 		ResultSet result = statement.executeQuery();
@@ -142,7 +142,7 @@ public class DAOUsuarioRepository {
 		/*com o parametro user logado garantimos que só 
 		será consultado somente cadastros que o usuario logado registrou*/
 		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
-		String sql = "SELECT * FROM model_login WHERE useradmin = false and usuario_id="+userLogado+" limit 5";
+		String sql = "SELECT * FROM model_login WHERE useradmin = false and usuario_id="+userLogado+" order by nome limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 
 		ResultSet result = statement.executeQuery();
@@ -173,7 +173,7 @@ public class DAOUsuarioRepository {
 		//passasmos o userLogado como parametro para a hora da consulta o usuario n buscar registro de outros usuários
 		ModelLogin modelLogin = new ModelLogin();
 
-		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?) and useradmin = false and usuario_id=? ";
+		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?) and useradmin = false and usuario_id=? order by nome ";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, login);
 		statement.setLong(2, userLogado);
@@ -204,7 +204,7 @@ public class DAOUsuarioRepository {
 		//passasmos o userLogado como parametro para a hora da consulta o usuario n buscar registro de outros usuários
 		ModelLogin modelLogin = new ModelLogin();
 
-		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?) and useradmin = false ; ";
+		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?) and useradmin = false order by nome ; ";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, login);
 		
@@ -290,7 +290,10 @@ public class DAOUsuarioRepository {
 		//esse sql conta quantas linhas (registros) tem vinculado ao usuario lugado
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet result = statement.executeQuery();
-		Double totalCadastros = result.getDouble("total");//pega o retorno do comando sql e seleciona o valor da coluna total
+		
+		result.next();
+		
+		Double totalCadastros = result.getDouble("count");//pega o retorno do comando sql e seleciona o valor da coluna total
 		
 		Double porpagina = 5.0;// estabele o número limite de registros que sera seleciona
 		
