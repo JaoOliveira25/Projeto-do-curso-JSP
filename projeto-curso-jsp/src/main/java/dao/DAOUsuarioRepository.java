@@ -89,7 +89,7 @@ public class DAOUsuarioRepository {
 	
 	public List<ModelLogin> consultaUsuarioList(String nome, Long userLogado) throws SQLException{
 		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
-		String sql = "SELECT * FROM model_login WHERE nome ILIKE ? and useradmin is false and usuario_id = ?";
+		String sql = "SELECT * FROM model_login WHERE nome ILIKE ? and useradmin is false and usuario_id = ? limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, "%" + nome + "%");
 		statement.setLong(2, userLogado);
@@ -109,11 +109,40 @@ public class DAOUsuarioRepository {
 		return retornoList;
 	}
 	
+	public List<ModelLogin> consultaUsuarioListPaginada(Long userLogado, Integer offset) throws Exception{
+		/*com o parametro user logado garantimos que só 
+		será consultado somente cadastros que o usuario logado registrou*/
+		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
+		String sql = "SELECT * FROM model_login WHERE useradmin = false and usuario_id="+userLogado+" order by nome "+offset+" 5 limit 5;";
+		PreparedStatement statement = connection.prepareStatement(sql);
+
+		ResultSet result = statement.executeQuery();
+		while(result.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setId(result.getLong("id"));
+			modelLogin.setEmail(result.getString("email"));
+			modelLogin.setLogin(result.getString("login"));
+			modelLogin.setNome(result.getString("nome"));
+			modelLogin.setPerfil(result.getString("perfil"));
+			modelLogin.setSexo(result.getString("sexo"));
+			modelLogin.setFotoUser(result.getString("fotouser"));
+			modelLogin.setCep(result.getString("cep"));
+			modelLogin.setLogradouro(result.getString("logradouro"));
+			modelLogin.setBairro(result.getString("bairro"));
+			modelLogin.setLocalidade(result.getString("localidade"));
+			modelLogin.setUf(result.getString("uf"));
+			modelLogin.setNumero(result.getString("numero"));
+			
+			retornoList.add(modelLogin);
+		}
+		return retornoList;
+	}
+	
 	public List<ModelLogin> consultaUsuarioList(Long userLogado) throws SQLException{
 		/*com o parametro user logado garantimos que só 
 		será consultado somente cadastros que o usuario logado registrou*/
 		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
-		String sql = "SELECT * FROM model_login WHERE useradmin = false and usuario_id="+userLogado;
+		String sql = "SELECT * FROM model_login WHERE useradmin = false and usuario_id="+userLogado+" limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 
 		ResultSet result = statement.executeQuery();
@@ -144,7 +173,7 @@ public class DAOUsuarioRepository {
 		//passasmos o userLogado como parametro para a hora da consulta o usuario n buscar registro de outros usuários
 		ModelLogin modelLogin = new ModelLogin();
 
-		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?) and useradmin = false and usuario_id=?;";
+		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?) and useradmin = false and usuario_id=? ";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, login);
 		statement.setLong(2, userLogado);
@@ -254,6 +283,26 @@ public class DAOUsuarioRepository {
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null
+	}
+	
+	public int totalPaginas(Long userLogado) throws Exception {
+		String sql = "select count(1) from model_login where useradmin is false and usuario_id = "+userLogado;
+		//esse sql conta quantas linhas (registros) tem vinculado ao usuario lugado
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet result = statement.executeQuery();
+		Double totalCadastros = result.getDouble("total");//pega o retorno do comando sql e seleciona o valor da coluna total
+		
+		Double porpagina = 5.0;// estabele o número limite de registros que sera seleciona
+		
+		Double paginas = totalCadastros/porpagina;//quantas paginas será gerado para o número total de registros
+		
+		Double resto = paginas % 2;
+		
+		if(resto>0) {
+			paginas ++;//se sobrar resto será gerada mais uma pagina para mostrar esse resto
+		}
+		
+		return paginas.intValue();
 	}
 	
 	public boolean validaLogin(String login) throws Exception {
