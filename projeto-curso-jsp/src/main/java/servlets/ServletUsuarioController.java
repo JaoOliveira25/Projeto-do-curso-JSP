@@ -72,11 +72,12 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				String nomeBusca = request.getParameter("nomeBusca");
 				
 				List<ModelLogin> dadosJsonUser = daoUsuarioRepository.consultaUsuarioList(nomeBusca, super.getUserLogado(request));
-				
-				
+			
 				ObjectMapper objectMapper = new ObjectMapper();
+				
 				String json = objectMapper.writeValueAsString(dadosJsonUser);
 				
+				response.addHeader("totalPagina", ""+daoUsuarioRepository.consultaUsuarioListTotalPaginaPaginacao(nomeBusca,  super.getUserLogado(request)));				
 				response.getWriter().write(json);
 				
 			}else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) {
