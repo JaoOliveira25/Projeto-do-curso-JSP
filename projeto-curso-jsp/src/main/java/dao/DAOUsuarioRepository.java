@@ -117,6 +117,28 @@ public int consultaUsuarioListTotalPaginaPaginacao(String nome, Long userLogado)
 		
 	}
 
+public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, String offset) throws SQLException {
+	List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
+	
+	String sql = "SELECT * FROM model_login WHERE nome ILIKE ? and useradmin is false and usuario_id = ? order by nome offset "+offset+" limit 5";
+	PreparedStatement statement = connection.prepareStatement(sql);
+	statement.setString(1, "%" + nome + "%");
+	statement.setLong(2, userLogado);
+	ResultSet result = statement.executeQuery();
+	while (result.next()) {
+		ModelLogin modelLogin = new ModelLogin();
+		modelLogin.setId(result.getLong("id"));
+		modelLogin.setEmail(result.getString("email"));
+		modelLogin.setLogin(result.getString("login"));
+		modelLogin.setNome(result.getString("nome"));
+		modelLogin.setPerfil(result.getString("perfil"));
+		modelLogin.setSexo(result.getString("sexo"));
+		// modelLogin.setSenha(result.getString("password"));
+		retornoList.add(modelLogin);
+	}
+
+	return retornoList;
+}
 
 	public List<ModelLogin> consultaUsuarioList(String nome, Long userLogado) throws SQLException {
 		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
