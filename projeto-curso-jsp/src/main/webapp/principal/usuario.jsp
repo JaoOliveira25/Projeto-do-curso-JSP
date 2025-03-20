@@ -370,18 +370,59 @@
 			window.location.href = urlAction + '?acao=buscarEditar&id='+id;
 
 		}
+		
+		function buscarUserPagAjax(data){
+			let urlAction = document.getElementById('formUser').action;
+			let nomeBusca = document.getElementById('nomeBusca').value;
+
+
+			$.ajax({
+				method: "get",
+				url: urlAction,
+				data: data,
+				
+				success: function(response, textStatus, xhr){
+					
+					const json = JSON.parse(response);
+					
+					$('#tabelaResultados > tbody > tr').remove();
+					$("#ulPaginacaoUserAjax > li ").remove();
+
+					for(var i=0; i<json.length; i++){
+						$('#tabelaResultados > tbody').append('<tr> <td>'+json[i].id+'</td> <td>'+json[i].nome+'</td> <td><button type="button" class="btn btn-info" onclick="verEditar('+json[i].id+')">Ver</button></td> </tr>');
+						
+					}
+
+					document.getElementById('totalResultados').textContent = '	Resultados: '+json.length;
+					let totalPagina = xhr.getResponseHeader("totalPagina");
+					
+					for(var p=0; p < totalPagina; p++){
+						var data = "nomeBusca="+nomeBusca+"&acao=buscarUserAjaxPage&pagina="+(p*5);
+						
+						$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" onclick="buscaUserPagAjax(\''+data+'\')">'+(p+1)+'</a></li>');
+					}
+				}
+			}).fail(function(xhr, status, errorThrown) {
+						alert('Erro ao buscar usuário :'+ xhr.responseText);
+			});
+		}
 
 		function buscarUsuario() {
 			let nomeBusca = document.getElementById("nomeBusca").value;
 			
 
 			if(nomeBusca != null && nomeBusca != '' && nomeBusca.trim()!= ''){
-				let urlAction = document.getElementById("formUser").action;
+
+				let urlAction = document.getElementById("formUser").action;//pega a url que o form esta direcionando
+				
 
 				$.ajax({
 					method: "get",
 					url: urlAction,
-					data: "nomeBusca="+nomeBusca+"&acao=buscarUserAjax",
+					data:{
+						nomeBusca: nomeBusca,
+						acao: buscarUserAjax
+					},
 					success: function(response, textStatus, xhr){
 						
 						const json = JSON.parse(response);
@@ -394,13 +435,15 @@
 							
 						}
 
+						
 						document.getElementById('totalResultados').textContent = '	Resultados: '+json.length;
+						
 						let totalPagina = xhr.getResponseHeader("totalPagina");
 						
 						for(var p=0; p < totalPagina; p++){
-							var url = urlAction + "?nomeBusca="+nomeBusca+"&acao=buscarUserAjaxPage&pagina="+(p*5);
+							var data = "nomeBusca="+nomeBusca+"&acao=buscarUserAjaxPage&pagina="+(p*5);
 							
-							$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" href='+url+'>'+(p+1)+'</a></li>');
+							$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" onclick="buscaUserPagAjax(\''+data+'\')">'+(p+1)+'</a></li>');
 						}
 					}
 				}).fail(function(xhr, status, errorThrown) {
