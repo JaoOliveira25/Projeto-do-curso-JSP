@@ -16,6 +16,7 @@ import model.ModelLogin;
 //servlets são os controller de um projeto MVC ServletLoginControllerb
 
 @WebServlet("/ServletLogin") // mapeamento de url que vem da tela
+
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DAOLoginRepository daoLoginRepository = new DAOLoginRepository();

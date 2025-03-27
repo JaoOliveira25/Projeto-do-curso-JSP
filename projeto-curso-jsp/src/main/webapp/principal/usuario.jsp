@@ -49,10 +49,11 @@
 															<input type="hidden" name="acao" id="acao" value="">
 
 															<div class="form-group form-default form-static-label">
-																<input type="text" name="id" id="id"
+																	<input type="text" name="id" id="id"
 																	class="form-control" readonly="readonly"
-																	value="${modelLogin.id}"> <span
-																	class="form-bar"></span> <label class="float-label">ID:</label>
+																	value="${modelLogin.id}"> 
+																	<span class="form-bar"></span> 
+																	<label class="float-label">ID:</label>
 															</div>
 
 															
@@ -203,9 +204,12 @@
 															<button type="button"
 																class="btn btn-info waves-effect waves-light"
 																onclick="criarDelete()">Deletar</button>
+																<c:if test="${modelLogin.id > 0}">
+																	<a href="<%= request.getContextPath()%>/ServletTelefone?idUser=${modelLogin.id}" class="btn btn-primary waves-effect waves-light">Telefone</a>
+																</c:if>
 															<button type="button" class="btn btn-secondary"
-																data-toggle="modal" data-target="#exampleModalUsuario">
-																Buscar</button>
+															data-toggle="modal" data-target="#exampleModalUsuario">
+															Buscar</button>
 
 														</form>
 
@@ -371,7 +375,7 @@
 
 		}
 		
-		function buscarUserPagAjax(data){
+		function buscarUserPageAjax(data){
 			let urlAction = document.getElementById('formUser').action;
 			let nomeBusca = document.getElementById('nomeBusca').value;
 
@@ -399,7 +403,7 @@
 					for(var p=0; p < totalPagina; p++){
 						var data = "nomeBusca="+nomeBusca+"&acao=buscarUserAjaxPage&pagina="+(p*5);
 						
-						$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" onclick="buscaUserPagAjax(\''+data+'\')">'+(p+1)+'</a></li>');
+						$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" href="#" onclick="buscarUserPageAjax(\''+data+'\')">'+(p+1)+'</a></li>');
 					}
 				}
 			}).fail(function(xhr, status, errorThrown) {
@@ -421,7 +425,7 @@
 					url: urlAction,
 					data:{
 						nomeBusca: nomeBusca,
-						acao: buscarUserAjax
+						acao: "buscarUserAjax"
 					},
 					success: function(response, textStatus, xhr){
 						
@@ -443,7 +447,7 @@
 						for(var p=0; p < totalPagina; p++){
 							var data = "nomeBusca="+nomeBusca+"&acao=buscarUserAjaxPage&pagina="+(p*5);
 							
-							$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" onclick="buscaUserPagAjax(\''+data+'\')">'+(p+1)+'</a></li>');
+							$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" href="#" onclick="buscarUserPageAjax(\''+data+'\')">'+(p+1)+'</a></li>');
 						}
 					}
 				}).fail(function(xhr, status, errorThrown) {
