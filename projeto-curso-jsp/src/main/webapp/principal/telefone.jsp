@@ -111,6 +111,15 @@
 	</div>
 
 	<jsp:include page="js.jsp"></jsp:include>
+	<script type="text/javascript">
+	$("#numero").keypress(function(event){
+		let char = String.fromCharCode(event.which||event.keyCode);
+		if(!/\d/.test(char)){
+			event.preventDefault();
+		}
+	})
+	
+	</script>
 </body>
 
 </html>

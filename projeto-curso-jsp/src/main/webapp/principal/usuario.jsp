@@ -332,6 +332,13 @@
 
 
 	<script type="text/javascript">
+		$("#numero,#cep").keypress(function(event){
+			let char = String.fromCharCode(event.which||event.keyCode);
+			if(!/\d/.test(char)){
+				event.preventDefault();
+			}
+		})
+	
 		function pesquisaCep(){
 			let cep = $("#cep").val(); 
 
