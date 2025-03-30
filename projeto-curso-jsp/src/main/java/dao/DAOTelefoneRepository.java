@@ -42,7 +42,7 @@ public class DAOTelefoneRepository {
 	
 	public List<ModelTelefone> listFone(Long idUserPai) throws Exception{
 		List<ModelTelefone> retorno = new ArrayList<ModelTelefone>();
-		String sql = "SELECT * FROM telefone WHERE usuario_pai_id = ? AND useradmin is false";
+		String sql = "SELECT * FROM telefone WHERE usuario_pai_id = ? ";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		preparedStatement.setLong(1, idUserPai);
 		ResultSet resultSet = preparedStatement.executeQuery();

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,7 +73,31 @@
 												</div>
 											</div>
 										</div>
-
+										<span id="msg">${msg}</span>
+										
+										<div style="height: 300px; overflow: scroll;">
+											<table class="table" id="tabelaResultadosView">
+												<thead>
+													<tr>
+														<th scope="col">ID</th>
+														<th scope="col">Número</th>
+														<th scope="col">Excluir</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${modelTelefones}" var="fone">
+														<tr>
+															<td><c:out value="${fone.id}"></c:out></td>
+															<td><c:out value="${fone.numero}"></c:out></td>
+															<td><a
+																href="<%= request.getContextPath() %>/ServletTelefone?acao=excluirTelefone&id=${fone.id}&idUserPai=${fone.usuario_pai_id.id}"
+																class="btn btn-success" type="button">Remover</a></td>
+															
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
 									</div>
 									<!-- Page-body end -->
 								</div>
