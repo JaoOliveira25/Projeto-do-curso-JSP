@@ -154,6 +154,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			
+
 			String msg = "Operação realizada com sucesso";
 
 			String id = request.getParameter("id");
@@ -169,8 +171,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String localidade = request.getParameter("localidade");
 			String uf = request.getParameter("uf");
 			String numero = request.getParameter("numero");
-			
-			 
+			String dataNascimento = request.getParameter("dat.nascimento");
+			System.out.println(dataNascimento);
 			
 			ModelLogin modelLogin = new ModelLogin();
 			modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
@@ -186,7 +188,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setLocalidade(localidade);
 			modelLogin.setUf(uf);
 			modelLogin.setNumero(numero);
-			
+			modelLogin.setDataNascimento(dataNascimento);
 			
 			if(request.getPart("fileFoto")!= null) {
 				Part part = request.getPart("fileFoto"); // Obtemos o arquivo enviado

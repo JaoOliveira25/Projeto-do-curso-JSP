@@ -1,6 +1,9 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class ModelLogin implements Serializable{
 	
@@ -15,14 +18,31 @@ public class ModelLogin implements Serializable{
 	private String sexo;
 	private String fotoUser;
 	private String extesaoFotoUser;
-	
 	private String cep;
 	private String logradouro;
 	private String bairro;
 	private String localidade;
 	private String uf;
 	private String numero;
+	private Date dataNascimento;
 	
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(String dataNascimento) {
+		
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date date  = sdf.parse(dataNascimento);
+			this.dataNascimento = new Date(date.getTime());
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	public String getCep() {
 		return cep;
 	}

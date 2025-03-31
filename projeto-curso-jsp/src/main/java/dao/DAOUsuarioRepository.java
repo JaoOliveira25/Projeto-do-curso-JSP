@@ -20,7 +20,7 @@ public class DAOUsuarioRepository {
 
 	public ModelLogin gravarUsuario(ModelLogin objeto, Long userLogado) throws Exception {
 		if (objeto.isNovo()) {// grava um novo usuario
-			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero, datanascimento) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
 			statement.setString(2, objeto.getSenha());
@@ -35,7 +35,8 @@ public class DAOUsuarioRepository {
 			statement.setString(11, objeto.getLocalidade());
 			statement.setString(12, objeto.getUf());
 			statement.setString(13, objeto.getNumero());
-
+			statement.setDate(14, objeto.getDataNascimento());
+			
 			statement.execute();// executa a instrução sql
 			connection.commit();// salva no banco de dados
 
@@ -51,7 +52,7 @@ public class DAOUsuarioRepository {
 
 		} else {
 
-			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=?, sexo=?,  cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero=? WHERE id="
+			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=?, sexo=?,  cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero=? datanascimento=? WHERE id="
 					+ objeto.getId() + ";";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
@@ -66,6 +67,8 @@ public class DAOUsuarioRepository {
 			statement.setString(11, objeto.getLocalidade());
 			statement.setString(12, objeto.getUf());
 			statement.setString(13, objeto.getNumero());
+			statement.setDate(14, objeto.getDataNascimento());
+
 
 			statement.executeUpdate();
 			connection.commit();

@@ -55,6 +55,14 @@
 																	<span class="form-bar"></span> 
 																	<label class="float-label">ID:</label>
 															</div>
+															
+															<div class="form-group form-default form-static-label">
+																	<input type="date" name="dat.nascimento" id="dat.nascimento"
+																	class="form-control" required="required"
+																	value="${modelLogin.dataNascimento}"> 
+																	<span class="form-bar"></span> 
+																	<label class="float-label">Dat. Nascimento:</label>
+															</div>
 
 															
 															<div class="form-group form-default input-group mb-4">
