@@ -57,7 +57,7 @@
 															</div>
 															
 															<div class="form-group form-default form-static-label">
-																	<input type="date" name="dat.nascimento" id="dat.nascimento"
+																	<input type="text" name="dataNascimento" id="dataNascimento"
 																	class="form-control" required="required"
 																	value="${modelLogin.dataNascimento}"> 
 																	<span class="form-bar"></span> 
@@ -340,6 +340,20 @@
 
 
 	<script type="text/javascript">
+		$(function(){
+			$("#dataNascimento").datepicker({
+				dateFormat: 'dd/mm/yy',
+				dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+				dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+				dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+				monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+				monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+				nextText: 'Próximo',
+			    prevText: 'Anterior'
+			})
+		});
+	
+	
 		$("#numero,#cep").keypress(function(event){
 			let char = String.fromCharCode(event.which||event.keyCode);
 			if(!/\d/.test(char)){

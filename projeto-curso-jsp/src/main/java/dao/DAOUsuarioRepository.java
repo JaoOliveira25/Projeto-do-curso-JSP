@@ -52,7 +52,7 @@ public class DAOUsuarioRepository {
 
 		} else {
 
-			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=?, sexo=?,  cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero=? datanascimento=? WHERE id="
+			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=?, sexo=?,  cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero=?, datanascimento=? WHERE id="
 					+ objeto.getId() + ";";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
@@ -61,13 +61,13 @@ public class DAOUsuarioRepository {
 			statement.setString(4, objeto.getEmail());
 			statement.setString(5, objeto.getPerfil());
 			statement.setString(6, objeto.getSexo());
-			statement.setString(8, objeto.getCep());
-			statement.setString(9, objeto.getLogradouro());
-			statement.setString(10, objeto.getBairro());
-			statement.setString(11, objeto.getLocalidade());
-			statement.setString(12, objeto.getUf());
-			statement.setString(13, objeto.getNumero());
-			statement.setDate(14, objeto.getDataNascimento());
+			statement.setString(7, objeto.getCep());
+			statement.setString(8, objeto.getLogradouro());
+			statement.setString(9, objeto.getBairro());
+			statement.setString(10, objeto.getLocalidade());
+			statement.setString(11, objeto.getUf());
+			statement.setString(12, objeto.getNumero());
+			statement.setDate(13, objeto.getDataNascimento());
 
 
 			statement.executeUpdate();

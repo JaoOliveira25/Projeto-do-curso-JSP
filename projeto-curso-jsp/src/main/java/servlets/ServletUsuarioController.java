@@ -171,7 +171,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String localidade = request.getParameter("localidade");
 			String uf = request.getParameter("uf");
 			String numero = request.getParameter("numero");
-			String dataNascimento = request.getParameter("dat.nascimento");
+			String dataNascimento = request.getParameter("dataNascimento");
 			System.out.println(dataNascimento);
 			
 			ModelLogin modelLogin = new ModelLogin();
