@@ -25,7 +25,17 @@ public class ModelLogin implements Serializable{
 	private String uf;
 	private String numero;
 	private Date dataNascimento;
+	private Double rendaMensal;
 	
+	
+	public Double getRendaMensal() {
+		return rendaMensal;
+	}
+
+	public void setRendaMensal(Double rendaMensal) {
+		this.rendaMensal = rendaMensal;
+	}
+
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}

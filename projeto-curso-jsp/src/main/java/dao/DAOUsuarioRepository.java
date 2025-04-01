@@ -1,9 +1,11 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class DAOUsuarioRepository {
 
 	public ModelLogin gravarUsuario(ModelLogin objeto, Long userLogado) throws Exception {
 		if (objeto.isNovo()) {// grava um novo usuario
-			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero, datanascimento) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero, datanascimento, rendamensal) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
 			statement.setString(2, objeto.getSenha());
@@ -36,6 +38,7 @@ public class DAOUsuarioRepository {
 			statement.setString(12, objeto.getUf());
 			statement.setString(13, objeto.getNumero());
 			statement.setDate(14, objeto.getDataNascimento());
+			statement.setDouble(15, objeto.getRendaMensal());
 			
 			statement.execute();// executa a instrução sql
 			connection.commit();// salva no banco de dados
@@ -52,7 +55,7 @@ public class DAOUsuarioRepository {
 
 		} else {
 
-			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=?, sexo=?,  cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero=?, datanascimento=? WHERE id="
+			String sql = "UPDATE model_login SET login=?, password=?, nome=?, email=?, perfil=?, sexo=?,  cep=?, logradouro=?, bairro=?, localidade=?, uf=?, numero=?, datanascimento=?, rendamensal=? WHERE id="
 					+ objeto.getId() + ";";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, objeto.getLogin());
@@ -68,7 +71,7 @@ public class DAOUsuarioRepository {
 			statement.setString(11, objeto.getUf());
 			statement.setString(12, objeto.getNumero());
 			statement.setDate(13, objeto.getDataNascimento());
-
+			statement.setDouble(14, objeto.getRendaMensal());
 
 			statement.executeUpdate();
 			connection.commit();
@@ -381,6 +384,10 @@ public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, 
 			modelLogin.setLocalidade(result.getString("localidade"));
 			modelLogin.setUf(result.getString("uf"));
 			modelLogin.setNumero(result.getString("numero"));
+			modelLogin.setDataNascimento(result.getDate("datanascimento")!= null 
+				    ? new SimpleDateFormat("dd/MM/yyyy").format(result.getDate("datanascimento")) 
+				    	    : "");
+			modelLogin.setRendaMensal(result.getDouble("rendamensal"));
 		}
 
 		return modelLogin;// se não entrar no loop while o retorno vai ser null

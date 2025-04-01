@@ -172,7 +172,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String uf = request.getParameter("uf");
 			String numero = request.getParameter("numero");
 			String dataNascimento = request.getParameter("dataNascimento");
-			System.out.println(dataNascimento);
+			String rendaMensal = request.getParameter("rendaMensal");
+			rendaMensal = rendaMensal.replaceAll("R\\$ ", "").replaceAll("\\.", "").replaceAll(",", ".");
 			
 			ModelLogin modelLogin = new ModelLogin();
 			modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
@@ -189,6 +190,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setUf(uf);
 			modelLogin.setNumero(numero);
 			modelLogin.setDataNascimento(dataNascimento);
+			modelLogin.setRendaMensal(Double.parseDouble(rendaMensal));
 			
 			if(request.getPart("fileFoto")!= null) {
 				Part part = request.getPart("fileFoto"); // Obtemos o arquivo enviado

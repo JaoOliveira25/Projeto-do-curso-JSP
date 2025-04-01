@@ -63,6 +63,14 @@
 																	<span class="form-bar"></span> 
 																	<label class="float-label">Dat. Nascimento:</label>
 															</div>
+															
+															<div class="form-group form-default form-static-label">
+																	<input type="text" name="rendaMensal" id="rendaMensal"
+																	class="form-control" required="required"
+																	value="${modelLogin.rendaMensal}"> 
+																	<span class="form-bar"></span> 
+																	<label class="float-label">Renda Mensal:</label>
+															</div>
 
 															
 															<div class="form-group form-default input-group mb-4">
@@ -340,6 +348,23 @@
 
 
 	<script type="text/javascript">
+	
+		
+		$("#rendaMensal").maskMoney({prefix:"R$ ", decimal:",", thousands:"."})
+		const formatter = new Intl.NumberFormat('PT-BR',{
+			currency: 'BRL',
+			minimumFractionDigits: 2
+		});
+		
+		$("#rendaMensal").val(formatter.format(parseFloat($("#rendaMensal").val())));
+		
+		$("#rendaMensal").focus();
+		
+		let dataNascimento = $("#dataNascimento").val();
+		let partes = dataNascimento.split("-");
+		let dateFormat = new Date(partes[0], partes[1] - 1, partes[2]);
+		$("#dataNascimento").val(dateFormat.toLocaleDateString('pt-BR',{timeZone: 'UTC'}));
+		
 		$(function(){
 			$("#dataNascimento").datepicker({
 				dateFormat: 'dd/mm/yy',
