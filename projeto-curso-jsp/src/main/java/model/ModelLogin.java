@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModelLogin implements Serializable{
 	
@@ -26,8 +28,17 @@ public class ModelLogin implements Serializable{
 	private String numero;
 	private Date dataNascimento;
 	private Double rendaMensal;
+	private List<ModelTelefone> telefones = new ArrayList<ModelTelefone>();
 	
 	
+	public List<ModelTelefone> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(List<ModelTelefone> telefones) {
+		this.telefones = telefones;
+	}
+
 	public Double getRendaMensal() {
 		return rendaMensal;
 	}

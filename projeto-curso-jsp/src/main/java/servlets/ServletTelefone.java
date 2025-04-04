@@ -75,23 +75,35 @@ public class ServletTelefone extends ServletGenericUtil {
 		try {
 			String usuario_pai_id = request.getParameter("id");//usuario pai do telefone
 			String numero = request.getParameter("numero");
-			
-			
-			
 			ModelTelefone modelTelefone = new ModelTelefone();
 			modelTelefone.setUsuario_pai_id(daoUsuarioRepository.consultaUsuarioID(Long.parseLong(usuario_pai_id)));
-			modelTelefone.setNumero(numero);
 			modelTelefone.setUsuario_cad_id(super.getUserLogadoObjt(request));
-			daoTelefoneRepository.gravarTelefone(modelTelefone);
+			modelTelefone.setNumero(numero);
 			
 			ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioID(modelTelefone.getUsuario_pai_id().getId());
+
+			
+			
+			if(!daoTelefoneRepository.existeFone(numero, Long.valueOf(usuario_pai_id))) {
+				
+				
+				daoTelefoneRepository.gravarTelefone(modelTelefone);
+				
+				
+				request.setAttribute("msg", "Salvo com sucesso");
+
+			}else {
+				request.setAttribute("msg", "Telefone já existe");
+			}
 			
 			List<ModelTelefone> modelTelefones = daoTelefoneRepository.listFone(modelTelefone.getUsuario_pai_id().getId());
 			
+			
 			request.setAttribute("modelLogin", modelLogin);
 			request.setAttribute("modelTelefones", modelTelefones);
-			request.setAttribute("msg", "Salvo com sucesso");
 			request.getRequestDispatcher("principal/telefone.jsp").forward(request, response);
+			
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

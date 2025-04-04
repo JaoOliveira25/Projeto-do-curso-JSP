@@ -15,10 +15,13 @@ import model.ModelLogin;
 public class DAOUsuarioRepository {
 
 	private Connection connection;
+	
 
 	public DAOUsuarioRepository() {
 		connection = SingleConnectionBanco.getConnection();
 	}
+	
+	
 
 	public ModelLogin gravarUsuario(ModelLogin objeto, Long userLogado) throws Exception {
 		if (objeto.isNovo()) {// grava um novo usuario
@@ -230,6 +233,82 @@ public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, 
 			retornoList.add(modelLogin);
 		}
 
+		return retornoList;
+	}
+	
+public List<ModelLogin> consultaUsuarioListRelData(Long userLogado, String dataInicio, String dataFim ) throws Exception {
+		
+		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
+		
+		
+		String sql = "SELECT * FROM model_login WHERE useradmin = false and usuario_id=" + userLogado+
+				" and datanascimento >= ? and datanascimento <= ?";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setDate(1, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataInicio))));
+		statement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataFim))));
+		
+		ResultSet result = statement.executeQuery();
+		
+		
+		while (result.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setId(result.getLong("id"));
+			modelLogin.setEmail(result.getString("email"));
+			modelLogin.setLogin(result.getString("login"));
+			modelLogin.setNome(result.getString("nome"));
+			modelLogin.setPerfil(result.getString("perfil"));
+			modelLogin.setSexo(result.getString("sexo"));
+			modelLogin.setFotoUser(result.getString("fotouser"));
+			modelLogin.setCep(result.getString("cep"));
+			modelLogin.setLogradouro(result.getString("logradouro"));
+			modelLogin.setBairro(result.getString("bairro"));
+			modelLogin.setLocalidade(result.getString("localidade"));
+			modelLogin.setUf(result.getString("uf"));
+			modelLogin.setNumero(result.getString("numero"));	
+			modelLogin.setTelefones(new DAOTelefoneRepository().listFone(result.getLong("id")));
+			modelLogin.setDataNascimento(result.getDate("datanascimento")!= null 
+				    ? new SimpleDateFormat("dd/MM/yyyy").format(result.getDate("datanascimento")) 
+				    	    : "");
+			retornoList.add(modelLogin);
+		}
+		
+		
+		
+		return retornoList;
+	}
+	
+	public List<ModelLogin> consultaUsuarioListRel(Long userLogado) throws Exception {
+		
+		List<ModelLogin> retornoList = new ArrayList<ModelLogin>();
+		
+		
+		String sql = "SELECT * FROM model_login WHERE useradmin = false and usuario_id=" + userLogado;
+		PreparedStatement statement = connection.prepareStatement(sql);
+
+		ResultSet result = statement.executeQuery();
+		
+		
+		while (result.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setId(result.getLong("id"));
+			modelLogin.setEmail(result.getString("email"));
+			modelLogin.setLogin(result.getString("login"));
+			modelLogin.setNome(result.getString("nome"));
+			modelLogin.setPerfil(result.getString("perfil"));
+			modelLogin.setSexo(result.getString("sexo"));
+			modelLogin.setFotoUser(result.getString("fotouser"));
+			modelLogin.setCep(result.getString("cep"));
+			modelLogin.setLogradouro(result.getString("logradouro"));
+			modelLogin.setBairro(result.getString("bairro"));
+			modelLogin.setLocalidade(result.getString("localidade"));
+			modelLogin.setUf(result.getString("uf"));
+			modelLogin.setNumero(result.getString("numero"));	
+			modelLogin.setTelefones(new DAOTelefoneRepository().listFone(result.getLong("id")));
+			retornoList.add(modelLogin);
+		}
+		
+		
+		
 		return retornoList;
 	}
 

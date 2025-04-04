@@ -1,10 +1,14 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.List;
-import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
 import java.util.Base64;
+import java.util.List;
+
+import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import dao.DAOTelefoneRepository;
 import dao.DAOUsuarioRepository;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -21,7 +25,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 	private static final long serialVersionUID = 1L;
 
 	private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
-
+	private DAOTelefoneRepository daoTelefoneRepository = new DAOTelefoneRepository();
+	
 	public ServletUsuarioController() {
 
 	}
@@ -134,8 +139,22 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 						
-			}
-			else {
+			}else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioUser")) {
+				String dataInicio = request.getParameter("dataInicio");
+				String dataFim = request.getParameter("dataFim");
+				
+				if(dataInicio==null||dataInicio.isEmpty()&& dataFim==null||dataFim.isEmpty()) {
+					request.setAttribute("listaUser",daoUsuarioRepository.consultaUsuarioListRel(super.getUserLogado(request)));
+				}else {
+					
+					request.setAttribute("listaUser",daoUsuarioRepository.consultaUsuarioListRelData(super.getUserLogado(request),dataInicio,dataFim)) ;					
+				}
+				
+				request.setAttribute("dataInicio", dataInicio);
+				request.setAttribute("dataFim", dataFim);
+				request.getRequestDispatcher("principal/rel.user.jsp").forward(request, response);
+						
+			}else {
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins);
 				request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
@@ -191,6 +210,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setNumero(numero);
 			modelLogin.setDataNascimento(dataNascimento);
 			modelLogin.setRendaMensal(Double.parseDouble(rendaMensal));
+			modelLogin.setTelefones(daoTelefoneRepository.listFone(modelLogin.getId()));
 			
 			if(request.getPart("fileFoto")!= null) {
 				Part part = request.getPart("fileFoto"); // Obtemos o arquivo enviado
