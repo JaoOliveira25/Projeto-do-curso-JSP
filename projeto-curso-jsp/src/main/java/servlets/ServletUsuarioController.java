@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import model.ModelLogin;
+import utils.ReportUtil;
 
 @MultipartConfig
 @WebServlet(urlPatterns = {"/ServletUsuarioController"})
@@ -139,22 +140,39 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 						
-			}else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioUser")) {
+			}else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioHTML")) {
 				String dataInicio = request.getParameter("dataInicio");
 				String dataFim = request.getParameter("dataFim");
 				
 				if(dataInicio==null||dataInicio.isEmpty()&& dataFim==null||dataFim.isEmpty()) {
 					request.setAttribute("listaUser",daoUsuarioRepository.consultaUsuarioListRel(super.getUserLogado(request)));
-				}else {
-					
-					request.setAttribute("listaUser",daoUsuarioRepository.consultaUsuarioListRelData(super.getUserLogado(request),dataInicio,dataFim)) ;					
 				}
 				
 				request.setAttribute("dataInicio", dataInicio);
 				request.setAttribute("dataFim", dataFim);
 				request.getRequestDispatcher("principal/rel.user.jsp").forward(request, response);
 						
-			}else {
+			}else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioPDF")) {
+				String dataInicio = request.getParameter("dataInicio");
+				String dataFim = request.getParameter("dataFim");
+				
+				List<ModelLogin> modelLogins = null;
+				
+				if(dataInicio==null||dataInicio.isEmpty()&& dataFim==null||dataFim.isEmpty()) {
+					modelLogins = daoUsuarioRepository.consultaUsuarioListRel(super.getUserLogado(request));
+				}else {
+					modelLogins = daoUsuarioRepository.consultaUsuarioListRelData(super.getUserLogado(request), dataInicio, dataFim);
+					
+				}
+				
+				byte[] relatorio = new ReportUtil().geraRelatorioPDF(modelLogins, "rel_user_jsp", request.getServletContext());
+				response.setHeader("Content-Disposition", "attachment;filename=arquivo.pdf");
+				response.getOutputStream().write(relatorio);
+				
+			
+						
+			}
+			else {
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins);
 				request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));

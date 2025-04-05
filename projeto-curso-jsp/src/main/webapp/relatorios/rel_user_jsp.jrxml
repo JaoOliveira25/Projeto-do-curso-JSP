@@ -1,0 +1,93 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="rel_user_jspjrxml" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8355041-d272-4531-9509-c0f228f40a41">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="numero" class="java.lang.String">
+		<description><![CDATA[numero]]></description>
+	</field>
+	<field name="bairro" class="java.lang.String">
+		<description><![CDATA[bairro]]></description>
+	</field>
+	<field name="localidade" class="java.lang.String">
+		<description><![CDATA[localidade]]></description>
+	</field>
+	<field name="novo" class="java.lang.Boolean">
+		<description><![CDATA[novo]]></description>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<description><![CDATA[nome]]></description>
+	</field>
+	<field name="userAdmin" class="java.lang.Boolean">
+		<description><![CDATA[userAdmin]]></description>
+	</field>
+	<field name="login" class="java.lang.String">
+		<description><![CDATA[login]]></description>
+	</field>
+	<field name="fotoUser" class="java.lang.String">
+		<description><![CDATA[fotoUser]]></description>
+	</field>
+	<field name="telefones" class="java.util.List">
+		<description><![CDATA[telefones]]></description>
+	</field>
+	<field name="cep" class="java.lang.String">
+		<description><![CDATA[cep]]></description>
+	</field>
+	<field name="perfil" class="java.lang.String">
+		<description><![CDATA[perfil]]></description>
+	</field>
+	<field name="senha" class="java.lang.String">
+		<description><![CDATA[senha]]></description>
+	</field>
+	<field name="uf" class="java.lang.String">
+		<description><![CDATA[uf]]></description>
+	</field>
+	<field name="rendaMensal" class="java.lang.Double">
+		<description><![CDATA[rendaMensal]]></description>
+	</field>
+	<field name="logradouro" class="java.lang.String">
+		<description><![CDATA[logradouro]]></description>
+	</field>
+	<field name="extesaoFotoUser" class="java.lang.String">
+		<description><![CDATA[extesaoFotoUser]]></description>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<description><![CDATA[id]]></description>
+	</field>
+	<field name="dataNascimento" class="java.sql.Date">
+		<description><![CDATA[dataNascimento]]></description>
+	</field>
+	<field name="sexo" class="java.lang.String">
+		<description><![CDATA[sexo]]></description>
+	</field>
+	<field name="email" class="java.lang.String">
+		<description><![CDATA[email]]></description>
+	</field>
+	<title height="55" splitType="Stretch">
+		<element kind="staticText" uuid="23922e4e-cfe3-43c6-a001-5dac17f0ae98" x="0" y="4" width="540" height="51" markup="styled" fontSize="26.0" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Relatório de Usuários]]></text>
+		</element>
+	</title>
+	<columnHeader height="17" splitType="Stretch">
+		<element kind="staticText" uuid="ee7c9594-9ecd-411d-b5ad-00d9537429e4" x="0" y="0" width="100" height="16">
+			<text><![CDATA[Nome]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="01436a05-855b-4c0f-b052-853b67ef755c"/>
+		</element>
+		<element kind="staticText" uuid="41107d8b-f016-4ac7-a0ec-bd50d15d8794" x="180" y="0" width="100" height="17">
+			<text><![CDATA[Data De Nascimento]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c19916fb-53f1-4b3b-b626-798165d7ee8b"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="33498c1d-7d20-4aab-b0ec-d66aa47d9c08" x="0" y="0" width="180" height="19">
+				<expression><![CDATA[$F{nome}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="01436a05-855b-4c0f-b052-853b67ef755c"/>
+			</element>
+			<element kind="textField" uuid="824c8f93-8f03-4e81-84f0-7ac94ca7ac50" x="180" y="-1" width="100" height="19">
+				<expression><![CDATA[$F{dataNascimento}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c19916fb-53f1-4b3b-b626-798165d7ee8b"/>
+			</element>
+			<element kind="line" uuid="6bef1ab4-0a96-41ab-8fd3-250e7074ed4f" x="0" y="19" width="560" height="1"/>
+		</band>
+	</detail>
+</jasperReport>

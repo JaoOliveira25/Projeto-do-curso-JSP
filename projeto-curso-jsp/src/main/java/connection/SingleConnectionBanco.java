@@ -13,7 +13,6 @@ public class SingleConnectionBanco {
 	
 	static {
 		conectar();
-
 	}
 	
 	public SingleConnectionBanco() {
@@ -25,9 +24,12 @@ public class SingleConnectionBanco {
 	private static void conectar() {
 		try {
 			//conexão
-			if(connection == null) {
+			if(connection == null|| connection.isClosed()) {
 				//carrega o Drive de conexão do banco 
+				
 				Class.forName("org.postgresql.Driver");
+				
+				 
 				connection = DriverManager.getConnection(urlBanco,user,password);
 				connection.setAutoCommit(false);//para não efetuar alterações no banco sem nosso comando
 				
@@ -35,6 +37,7 @@ public class SingleConnectionBanco {
 			
 		} catch (Exception e) {
 			e.printStackTrace();//mostrar qualquer erro de conexão
+			throw new RuntimeException("Erro ao conectar ao banco: " + e.getMessage());
 		}
 		
 	}

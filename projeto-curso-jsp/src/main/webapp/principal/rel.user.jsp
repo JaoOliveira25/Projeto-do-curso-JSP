@@ -43,7 +43,7 @@
 															<form class="form-material"
 																action="<%=request.getContextPath()%>/ServletUsuarioController?acao=imprimirRelatorioUser"
 																method="get" id="formUser">
-																<input type="hidden" name="acao" value="imprimirRelatorioUser">
+																<input type="hidden" id="acaoImprimirRelatorio" name="acao" value="imprimirRelatorioHTML">
 																<div class="row">
 																	<div class="col">
 																		<input type="text" id="dataInicio" name="dataInicio" class="form-control" placeholder="Data Inicio" aria-label="Last name" value="${dataInicio}">
@@ -53,7 +53,8 @@
 																	</div>
 
 																	<div class="col-auto">
-																		<button type="submit" class="btn btn-primary mb-2">Imprimir relatório</button>
+																		<button type="button" onclick="imprimirRelatorioHtml()" class="btn btn-primary mb-2">Imprimir relatório</button>
+																		<button type="button" onclick="imprimirRelatorioPDF()" class="btn btn-primary mb-2">Baixar PDF</button>
 																	</div>
 																  </div>
 															</form>
@@ -103,7 +104,20 @@
 	</div>
 
 	<jsp:include page="js.jsp"></jsp:include>
+
 	<script type="text/javascript">
+
+		function imprimirRelatorioHtml(){
+			document.getElementById("acaoImprimirRelatorio").value = "imprimirRelatorioHTML";
+			$("#formUser").submit();
+		}
+
+		function imprimirRelatorioPDF(){
+			document.getElementById("acaoImprimirRelatorio").value = "imprimirRelatorioPDF";
+			
+			$("#formUser").submit();
+		}
+
 		$(function(){
 			$("#dataInicio").datepicker({
 				dateFormat: 'dd/mm/yy',
