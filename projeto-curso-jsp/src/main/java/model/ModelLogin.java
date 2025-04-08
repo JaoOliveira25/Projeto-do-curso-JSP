@@ -31,6 +31,11 @@ public class ModelLogin implements Serializable{
 	private List<ModelTelefone> telefones = new ArrayList<ModelTelefone>();
 	
 	
+	@Override
+	public String toString() {
+		return "ModelLogin [nome=" + nome + ", dataNascimento=" + dataNascimento + "]";
+	}
+
 	public List<ModelTelefone> getTelefones() {
 		return telefones;
 	}

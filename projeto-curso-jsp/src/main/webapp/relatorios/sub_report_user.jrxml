@@ -1,0 +1,16 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="sub_report_user" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b8ec88da-cf89-44de-b62e-9d6e37a00ec5">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="numero" class="java.lang.String">
+		<description><![CDATA[numero]]></description>
+	</field>
+	<background splitType="Stretch"/>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<element kind="textField" uuid="7630cacf-03e5-41c0-bb47-85f5d8fe571b" x="40" y="0" width="160" height="19">
+				<expression><![CDATA[$F{numero}]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

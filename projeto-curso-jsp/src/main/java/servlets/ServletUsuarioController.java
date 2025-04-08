@@ -1,7 +1,9 @@
 package servlets;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
@@ -146,7 +148,11 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				if(dataInicio==null||dataInicio.isEmpty()&& dataFim==null||dataFim.isEmpty()) {
 					request.setAttribute("listaUser",daoUsuarioRepository.consultaUsuarioListRel(super.getUserLogado(request)));
-				}
+				}else {
+					 request.setAttribute("listaUser", daoUsuarioRepository
+							 .consultaUsuarioListRelData(super.getUserLogado(request), dataInicio, dataFim));
+			    }
+
 				
 				request.setAttribute("dataInicio", dataInicio);
 				request.setAttribute("dataFim", dataFim);
@@ -164,6 +170,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 					modelLogins = daoUsuarioRepository.consultaUsuarioListRelData(super.getUserLogado(request), dataInicio, dataFim);
 					
 				}
+				
+				HashMap<String, Object> params = new HashMap<String, Object>();
+				params.put("PARAM_SUB_REPORT", request.getServletContext().getRealPath("relatorios")+ File.separator);
 				
 				byte[] relatorio = new ReportUtil().geraRelatorioPDF(modelLogins, "rel_user_jsp", request.getServletContext());
 				response.setHeader("Content-Disposition", "attachment;filename=arquivo.pdf");

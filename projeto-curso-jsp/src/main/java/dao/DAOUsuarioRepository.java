@@ -304,6 +304,9 @@ public List<ModelLogin> consultaUsuarioListRelData(Long userLogado, String dataI
 			modelLogin.setUf(result.getString("uf"));
 			modelLogin.setNumero(result.getString("numero"));	
 			modelLogin.setTelefones(new DAOTelefoneRepository().listFone(result.getLong("id")));
+			modelLogin.setDataNascimento(result.getDate("datanascimento")!= null 
+				    ? new SimpleDateFormat("dd/MM/yyyy").format(result.getDate("datanascimento")) 
+				    	    : "");
 			retornoList.add(modelLogin);
 		}
 		

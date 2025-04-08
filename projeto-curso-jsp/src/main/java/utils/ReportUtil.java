@@ -16,6 +16,17 @@ public class ReportUtil implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	public byte[] geraRelatorioPDF(List listaDados, String nomeRelatorio, HashMap<String, Object> params, ServletContext servletContext) throws Exception {
+		JRBeanCollectionDataSource jrbcds = new JRBeanCollectionDataSource(listaDados);
+		
+		String caminhoJasper = servletContext.getRealPath("relatorios")+File.separator+nomeRelatorio+".jasper";
+		
+		JasperPrint impressoraJasper = JasperFillManager.fillReport(caminhoJasper, params, jrbcds);	
+	
+		return JasperExportManager.exportReportToPdf(impressoraJasper);
+	}
+	
+	
 	public byte[] geraRelatorioPDF(List listaDados, String nomeRelatorio, ServletContext servletContext) throws Exception {
 		JRBeanCollectionDataSource jrbcds = new JRBeanCollectionDataSource(listaDados);
 		
