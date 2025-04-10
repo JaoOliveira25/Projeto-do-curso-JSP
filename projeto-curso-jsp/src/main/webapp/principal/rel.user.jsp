@@ -29,66 +29,61 @@
 						<!-- Page-header end -->
 						<div class="pcoded-inner-content">
 							<!-- Main-body start -->
-							<div class="main-body">
-								<div class="page-wrapper">
+							<div class="main-body" >
+								<div class="page-wrapper" >
 									<!-- Page-body start -->
 									<div class="page-body">
-										<div class="row">
-											<div class="row">
-												<div class="col-sm-12">
-													<!-- Basic Form Inputs card start -->
-													<div class="card">
-														<div class="card-block">
-															<h5>Rel. Usuário</h5>
-															<form class="form-material"
-																action="<%=request.getContextPath()%>/ServletUsuarioController?acao=imprimirRelatorioUser"
-																method="get" id="formUser">
-																<input type="hidden" id="acaoImprimirRelatorio" name="acao" value="imprimirRelatorioHTML">
-																<div class="row">
-																	<div class="col">
-																		<input type="text" id="dataInicio" name="dataInicio" class="form-control" placeholder="Data Inicio" aria-label="Last name" value="${dataInicio}">
-																	</div>
-																	<div class="col">
-																	  <input type="text" id="dataFim" name="dataFim" class="form-control" placeholder="Data Fim" aria-label="Last name" value="${dataFim}">
-																	</div>
-
-																	<div class="col-auto">
-																		<button type="button" onclick="imprimirRelatorioHtml()" class="btn btn-primary mb-2">Imprimir relatório</button>
-																		<button type="button" onclick="imprimirRelatorioPDF()" class="btn btn-primary mb-2">Baixar PDF</button>
-																	</div>
-																  </div>
-															</form>
-
-															<div style="height: 300px; overflow: scroll;">
-																<table class="table" id="tabelaResultadosView">
-																	<thead>
-																		<tr>
-																			<th scope="col">ID</th>
-																			<th scope="col">Nome</th>
-																			<th scope="col">Telefone</th>
-																		</tr>
-																	</thead>
-																	<tbody>
-																		<c:forEach items="${listaUser}" var="mL">
-																			<tr>
-																				<td><c:out value="${mL.id}"></c:out></td>
-																				<td><c:out value="${mL.nome}"></c:out></td>
-																				<td>
-																					<c:forEach items="${mL.telefones}" var="tel">
-																						<c:out value="${tel.numero}"></c:out>
-																					<br>
-																					</c:forEach>
-																				
-																				</td>
-																			</tr>
-																		</c:forEach>
-																	</tbody>
-																</table>
-															</div>
-
+										<!-- Basic Form Inputs card start -->
+										<div class="card">
+											<div class="card-block">
+												<h5>Rel. Usuário</h5>
+												<form class="form-material"
+													action="<%=request.getContextPath()%>/ServletUsuarioController?acao=imprimirRelatorioUser"
+													method="get" id="formUser">
+													<input type="hidden" id="acaoImprimirRelatorio" name="acao" value="imprimirRelatorioHTML">
+													<div class="row">
+														<div class="col">
+															<input type="text" id="dataInicio" name="dataInicio" class="form-control" placeholder="Data Inicio" aria-label="Last name" value="${dataInicio}">
 														</div>
-													</div>
+														<div class="col">
+														  <input type="text" id="dataFim" name="dataFim" class="form-control" placeholder="Data Fim" aria-label="Last name" value="${dataFim}">
+														</div>
+
+														<div class="col-auto">
+															<button type="button" onclick="imprimirRelatorioHtml()" class="btn btn-primary mb-2">Imprimir relatório</button>
+															<button type="button" onclick="imprimirRelatorioPDF()" class="btn btn-primary mb-2">Baixar PDF</button>
+															<button type="button" onclick="imprimirRelatorioExcel()" class="btn btn-primary mb-2">Baixar Excel</button>
+														</div>
+													  </div>
+												</form>
+
+												<div style="height: 300px; overflow: scroll;">
+													<table class="table" id="tabelaResultadosView">
+														<thead>
+															<tr>
+																<th scope="col">ID</th>
+																<th scope="col">Nome</th>
+																<th scope="col">Telefone</th>
+															</tr>
+														</thead>
+														<tbody>
+															<c:forEach items="${listaUser}" var="mL">
+																<tr>
+																	<td><c:out value="${mL.id}"></c:out></td>
+																	<td><c:out value="${mL.nome}"></c:out></td>
+																	<td>
+																		<c:forEach items="${mL.telefones}" var="tel">
+																			<c:out value="${tel.numero}"></c:out>
+																		<br>
+																		</c:forEach>
+																	
+																	</td>
+																</tr>
+															</c:forEach>
+														</tbody>
+													</table>
 												</div>
+
 											</div>
 										</div>
 									</div>
@@ -106,6 +101,11 @@
 	<jsp:include page="js.jsp"></jsp:include>
 
 	<script type="text/javascript">
+
+		function imprimirRelatorioExcel(){
+			document.getElementById("acaoImprimirRelatorio").value = "imprimirRelatorioExcel";
+			$("#formUser").submit();
+		}
 
 		function imprimirRelatorioHtml(){
 			document.getElementById("acaoImprimirRelatorio").value = "imprimirRelatorioHTML";

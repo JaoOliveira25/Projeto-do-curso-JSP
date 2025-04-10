@@ -98,7 +98,7 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<element kind="subreport" uuid="04d04489-056d-497d-a508-f59d639ef1de" x="0" y="0" width="555" height="20">
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{telefones})]]></dataSourceExpression>
 				<expression><![CDATA[$P{PARAM_SUB_REPORT}+"sub_report_user.jasper"]]></expression>
 			</element>
 		</band>
