@@ -10,6 +10,7 @@ import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beandto.BeanDtoGraficoSalarioUser;
 import dao.DAOTelefoneRepository;
 import dao.DAOUsuarioRepository;
 import jakarta.servlet.RequestDispatcher;
@@ -178,25 +179,45 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
 				HashMap<String, Object> params = new HashMap<String, Object>();
 				params.put("PARAM_SUB_REPORT", request.getServletContext().getRealPath("relatorios") + File.separator);
-				
+
 				byte[] relatorio = null;
-				
+
 				String extensao = acao.toLowerCase().contains("excel") ? "xls" : "pdf";
-				
+
 				if (acao.equalsIgnoreCase("imprimirRelatorioPDF")) {
 					relatorio = new ReportUtil().geraRelatorioPDF(modelLogins, "rel_user_jsp", params,
 							request.getServletContext());
-					
+
 				} else if (acao.equalsIgnoreCase("imprimirRelatorioExcel")) {
 					relatorio = new ReportUtil().geraRelatorioExcel(modelLogins, "rel_user_jsp", params,
 							request.getServletContext());
-					response.setContentType("application/vnd.ms-excel");		
+					response.setContentType("application/vnd.ms-excel");
 				}
 
-				response.setHeader("Content-Disposition", "attachment;filename=arquivo."+extensao);
+				response.setHeader("Content-Disposition", "attachment;filename=arquivo." + extensao);
 				response.getOutputStream().write(relatorio);
 
-			} else {
+			} else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("gerarDadosGrafico")){
+				String dataInicio = request.getParameter("dataInicio");
+				String dataFim = request.getParameter("dataFim");
+				
+				
+				if ((dataInicio == null || dataInicio.isEmpty()) && (dataFim == null || dataFim.isEmpty())) {
+					BeanDtoGraficoSalarioUser  beanDtoGraficoSalarioUser = 
+							daoUsuarioRepository.montarGraficoMediaSalario(super.getUserLogado(request));
+					ObjectMapper mapper = new ObjectMapper();
+					String json = mapper.writeValueAsString(beanDtoGraficoSalarioUser);
+				
+					response.getWriter().write(json);
+				
+				} else {
+					//essa parte hoje
+
+				}
+				
+				
+
+			}else {
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins);
 				request.setAttribute("totalPaginas", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));

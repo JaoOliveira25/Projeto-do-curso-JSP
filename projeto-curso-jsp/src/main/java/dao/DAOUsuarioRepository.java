@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import beandto.BeanDtoGraficoSalarioUser;
 import connection.SingleConnectionBanco;
 import model.ModelLogin;
 
@@ -21,8 +22,33 @@ public class DAOUsuarioRepository {
 		connection = SingleConnectionBanco.getConnection();
 	}
 	
+	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario (Long userLogado) throws Exception {
+		String sql = "SELECT AVG(rendamensal) AS media_salarial, perfil FROM model_login where usuario_id = ? group by perfil";
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		
+		preparedStatement.setLong(1, userLogado);
+		
+		ResultSet resultSet = preparedStatement.executeQuery();
+		
+		List<String> perfis = new ArrayList<String>();
+		List<Double> salarios = new ArrayList<Double>();
+		
+		while(resultSet.next()) {
+			Double media_salarial = resultSet.getDouble("media_salarial");
+			String perfil = resultSet.getString("perfil");
+			perfis.add(perfil);
+			salarios.add(media_salarial);
+		}
+		
+		BeanDtoGraficoSalarioUser dtoGraficoSalario = new BeanDtoGraficoSalarioUser();
+		dtoGraficoSalario.setPerfis(perfis);
+		dtoGraficoSalario.setSalarios(salarios);
+		
+		return dtoGraficoSalario;
+		
+	}
 	
-
+	
 	public ModelLogin gravarUsuario(ModelLogin objeto, Long userLogado) throws Exception {
 		if (objeto.isNovo()) {// grava um novo usuario
 			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero, datanascimento, rendamensal) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";

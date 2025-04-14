@@ -36,11 +36,27 @@
 													<div class="card-block">
 														<h5>Gráfico Salário</h5>
 
-														<div class="col-auto">
-															<button type="button" onclick="gerarGrafico()"
-																class="btn btn-primary mb-2">Gerar Gráfico</button>
+														<form class="form-material"
+															action="<%=request.getContextPath()%>/ServletUsuarioController"
+															method="get" id="formUser">
 
-														</div>
+															<div class="row">
+																<div class="col">
+																	<input type="text" id="dataInicio" name="dataInicio" class="form-control" placeholder="Data Inicio" aria-label="Last name" value="${dataInicio}">
+																</div>
+																<div class="col">
+																  <input type="text" id="dataFim" name="dataFim" class="form-control" placeholder="Data Fim" aria-label="Last name" value="${dataFim}">
+																</div>
+
+																<div class="col-auto">
+																	<button type="button" onclick="gerarGrafico()" class="btn btn-primary mb-2">Gerar Gráfico</button>
+	
+																</div>
+															</div>
+															
+														</form>
+
+
 
 														<div style="height: 700px; overflow: scroll;">
 															<div>
@@ -67,31 +83,56 @@
 
 			<script type="text/javascript">
 
-				
 
-				 
-
-				const ctx = document.getElementById('myChart');
-
-				new Chart(ctx, {
-					type: 'line',
-					data: data = {
-					labels:  labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
-					datasets: [{
-						label: 'My First Dataset',
-						data: [65, 59, 80, 81, 56, 55, 40],
-						fill: false,
-						borderColor: 'rgb(75, 192, 192)',
-						tension: 0.1
-					}]
-				}
-				});
 
 				function gerarGrafico() {
+					let urlAction = document.getElementById("formUser").action;
+					let dataInicio = document.getElementById("dataInicio").value;
+					let dataFim = document.getElementById("dataFim").value;
+					
+					$.ajax({
+						method: "get",
+						url: urlAction,
+						data: {
+							dataInicio : dataInicio,
+							dataFim: dataFim, 
+							acao: "gerarDadosGrafico"
+						},
+
+						success: function (response) {
+							let json = JSON.parse(response);
+							
+
+							const ctx = document.getElementById('myChart');
+
+							new Chart(ctx, {
+								type: 'line',
+								data: {
+									labels: json.perfis,
+									datasets: [{
+										label: 'Gráfico de média salárial por tipo',
+										data: json.salarios,
+										fill: false,
+										borderColor: 'rgb(75, 192, 192)',
+										tension: 0.1
+									}]
+								}
+							});
+						}
+
+
+					}).fail(function (xhr, status, errorThrown) {
+						alert('Erro ao buscar dados para o gráfico :' + xhr.responseText);
+					});
+
+					
+
+					
+
 
 				}
 
-
+				
 
 				$(function () {
 					$("#dataInicio").datepicker({
