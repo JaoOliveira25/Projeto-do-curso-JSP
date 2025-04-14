@@ -83,6 +83,9 @@
 
 			<script type="text/javascript">
 
+				const ctx = document.getElementById('myChart');
+				let myChart = null;
+
 
 
 				function gerarGrafico() {
@@ -103,9 +106,11 @@
 							let json = JSON.parse(response);
 							
 
-							const ctx = document.getElementById('myChart');
+							if (myChart !== null) {
+									myChart.destroy();
+							}
 
-							new Chart(ctx, {
+							myChart = new Chart(ctx, {
 								type: 'line',
 								data: {
 									labels: json.perfis,

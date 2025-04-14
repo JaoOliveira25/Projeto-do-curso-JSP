@@ -22,6 +22,34 @@ public class DAOUsuarioRepository {
 		connection = SingleConnectionBanco.getConnection();
 	}
 	
+	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario(Long userLogado, String dataInicio, String dataFim) throws Exception {
+		String sql = "SELECT AVG(rendamensal) AS media_salarial, perfil FROM model_login where usuario_id = ? and datanascimento >= ? and datanascimento <= ? group by perfil";
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		
+		preparedStatement.setLong(1, userLogado);
+		preparedStatement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataInicio))));
+		preparedStatement.setDate(3, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataFim))));
+		
+		ResultSet resultSet = preparedStatement.executeQuery();
+		
+		List<String> perfis = new ArrayList<String>();
+		List<Double> salarios = new ArrayList<Double>();
+		
+		while(resultSet.next()) {
+			Double media_salarial = resultSet.getDouble("media_salarial");
+			String perfil = resultSet.getString("perfil");
+			perfis.add(perfil);
+			salarios.add(media_salarial);
+		}
+		
+		BeanDtoGraficoSalarioUser dtoGraficoSalario = new BeanDtoGraficoSalarioUser();
+		dtoGraficoSalario.setPerfis(perfis);
+		dtoGraficoSalario.setSalarios(salarios);
+		
+		return dtoGraficoSalario;
+		
+	}
+	
 	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario (Long userLogado) throws Exception {
 		String sql = "SELECT AVG(rendamensal) AS media_salarial, perfil FROM model_login where usuario_id = ? group by perfil";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -546,5 +574,7 @@ public List<ModelLogin> consultaUsuarioListRelData(Long userLogado, String dataI
 		statement.executeUpdate();
 		connection.commit();
 	}
+
+
 
 }

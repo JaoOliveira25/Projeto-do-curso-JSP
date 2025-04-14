@@ -198,6 +198,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				response.getOutputStream().write(relatorio);
 
 			} else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("gerarDadosGrafico")){
+				
 				String dataInicio = request.getParameter("dataInicio");
 				String dataFim = request.getParameter("dataFim");
 				
@@ -211,7 +212,12 @@ public class ServletUsuarioController extends ServletGenericUtil {
 					response.getWriter().write(json);
 				
 				} else {
-					//essa parte hoje
+					BeanDtoGraficoSalarioUser  beanDtoGraficoSalarioUser = 
+							daoUsuarioRepository.montarGraficoMediaSalario(super.getUserLogado(request),dataInicio,dataFim);
+					ObjectMapper mapper = new ObjectMapper();
+					String json = mapper.writeValueAsString(beanDtoGraficoSalarioUser);
+				
+					response.getWriter().write(json);
 
 				}
 				

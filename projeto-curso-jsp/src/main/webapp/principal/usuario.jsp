@@ -361,9 +361,27 @@
 		$("#rendaMensal").focus();
 		
 		let dataNascimento = $("#dataNascimento").val();
-		let partes = dataNascimento.split("-");
-		let dateFormat = new Date(partes[0], partes[1] - 1, partes[2]);
-		$("#dataNascimento").val(dateFormat.toLocaleDateString('pt-BR',{timeZone: 'UTC'}));
+		if(dataNascimento!=null && dataNascimento!=''){
+			let partes = dataNascimento.split("-");
+			let dateFormat = new Date(partes[0], partes[1] - 1, partes[2]);
+			$("#dataNascimento").val(dateFormat.toLocaleDateString('pt-BR',{timeZone: 'UTC'}));
+		}
+		
+		$('#dataNascimento').on('input', function () {
+  let valor = $(this).val();
+
+  // Remove tudo que não for número
+  valor = valor.replace(/\D/g, '');
+
+  // Aplica a máscara "dd/mm/aaaa"
+  if (valor.length >= 3 && valor.length <= 4) {
+    valor = valor.slice(0, 2) + '/' + valor.slice(2);
+  } else if (valor.length >= 5 && valor.length <= 8) {
+    valor = valor.slice(0, 2) + '/' + valor.slice(2, 4) + '/' + valor.slice(4);
+  }
+
+  $(this).val(valor);
+});
 		
 		$(function(){
 			$("#dataNascimento").datepicker({

@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 	
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-	
+
+
 <nav class="pcoded-navbar">
 	<div class="sidebar_toggle">
 		<a href="#"><i class="icon-close icons"></i></a>
