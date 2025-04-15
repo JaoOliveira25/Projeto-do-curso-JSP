@@ -59,7 +59,7 @@
 															<div class="form-group form-default form-static-label">
 																	<input type="text" name="dataNascimento" id="dataNascimento"
 																	class="form-control" required="required"
-																	value="${modelLogin.dataNascimento}"> 
+																	value="${modelLogin.dataNascimento}" maxlength="10" placeholder="dd/mm/aaaa"> 
 																	<span class="form-bar"></span> 
 																	<label class="float-label">Dat. Nascimento:</label>
 															</div>
@@ -67,7 +67,7 @@
 															<div class="form-group form-default form-static-label">
 																	<input type="text" name="rendaMensal" id="rendaMensal"
 																	class="form-control" required="required"
-																	value="${modelLogin.rendaMensal}"> 
+																	value="${modelLogin.rendaMensal}" placeholder="R$ 0,00"> 
 																	<span class="form-bar"></span> 
 																	<label class="float-label">Renda Mensal:</label>
 															</div>
