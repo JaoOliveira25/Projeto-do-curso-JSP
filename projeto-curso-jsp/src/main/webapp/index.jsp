@@ -33,7 +33,7 @@
 
 
 		<form action="<%= request.getContextPath() %>/ServletLogin" method="post" class="row g-3 needs-validation" novalidate>
-			<input type="hidden" value="<%= request.getParameter(" url")%>"
+			<input type="hidden" value="<%= request.getParameter("url")%>"
 			name="url">
 			<h5 class="msg">${msg}</h5>
 			<h1>Login</h1>

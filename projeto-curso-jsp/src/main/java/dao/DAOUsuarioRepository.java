@@ -24,14 +24,12 @@ public class DAOUsuarioRepository {
 	
 	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario(Long userLogado, String dataInicio, String dataFim) throws Exception {
 		String sql = "SELECT AVG(rendamensal) AS media_salarial, perfil FROM model_login where usuario_id = ? and datanascimento >= ? and datanascimento <= ? group by perfil";
-		PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		
-		preparedStatement.setLong(1, userLogado);
-		preparedStatement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataInicio))));
-		preparedStatement.setDate(3, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataFim))));
-		
-		ResultSet resultSet = preparedStatement.executeQuery();
-		
+try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+	preparedStatement.setLong(1, userLogado);
+	preparedStatement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataInicio))));
+	preparedStatement.setDate(3, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataFim))));
+
+	try (ResultSet resultSet = preparedStatement.executeQuery()){
 		List<String> perfis = new ArrayList<String>();
 		List<Double> salarios = new ArrayList<Double>();
 		
@@ -49,6 +47,9 @@ public class DAOUsuarioRepository {
 		return dtoGraficoSalario;
 		
 	}
+	
+}		
+}
 	
 	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario (Long userLogado) throws Exception {
 		String sql = "SELECT AVG(rendamensal) AS media_salarial, perfil FROM model_login where usuario_id = ? group by perfil";
@@ -78,6 +79,7 @@ public class DAOUsuarioRepository {
 	
 	
 	public ModelLogin gravarUsuario(ModelLogin objeto, Long userLogado) throws Exception {
+	
 		if (objeto.isNovo()) {// grava um novo usuario
 			String sql = "INSERT INTO model_login(login, password, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero, datanascimento, rendamensal) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement statement = connection.prepareStatement(sql);

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class SingleConnectionBanco {
-	//não importa de onde eu chamar/instanciar essa classe vou obter uma conexão
+	//não importa de onde eu chamar/instanciar essa classe vai obter uma conexão
 	//precisamos da url do bd , usuario, senha e Objeto Connection do pacote java sql
 	private static String urlBanco = "jdbc:postgresql://localhost:5432/curso-jsp?autoReconnect=true";
 	private static String user = "postgres";
@@ -14,12 +14,6 @@ public class SingleConnectionBanco {
 	static {
 		conectar();
 	}
-	
-	public SingleConnectionBanco() {
-		conectar();
-	}
-
-
 
 	private static void conectar() {
 		try {
