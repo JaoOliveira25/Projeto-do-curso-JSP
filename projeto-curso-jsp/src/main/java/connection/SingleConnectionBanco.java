@@ -4,11 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class SingleConnectionBanco {
+<<<<<<< HEAD
 	//não importa de onde eu chamar/instanciar essa classe vai obter uma conexão
 	//precisamos da url do bd , usuario, senha e Objeto Connection do pacote java sql
+=======
+	
+>>>>>>> branch 'master' of https://github.com/JaoOliveira25/Projeto-do-curso-JSP.git
 	private static String urlBanco = "jdbc:postgresql://localhost:5432/curso-jsp?autoReconnect=true";
-	private static String user = "postgres";
-	private static String password = "admin";
+	private static String user = "seu-usuario";
+	private static String password = "sua-senha";
 	private static Connection connection = null;
 	
 	static {
